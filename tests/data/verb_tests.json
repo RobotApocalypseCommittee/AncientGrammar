@@ -1,0 +1,21 @@
+{   
+    "REGULAR":[
+        {
+            "present":"λυω",
+            "future":"λυσω",
+            "aorist":"λυσα",
+            "aorist_passive":"λυθην",
+            "uncommon_epsilon":"False",
+            "tests":[
+                {
+                    "tense":"PRESENT",
+                    "mood":"INDICATIVE",
+                    "voice":"ACTIVE",
+                    "person":1,
+                    "plural":"False",
+                    "expected":"λυω"
+                }
+            ]
+        }
+    ]
+}
