@@ -1,7 +1,31 @@
 from ancientgrammar.adjective import get_adjective
 from ancientgrammar.qualifiers import Gender, Case, Degree
 
+def get_basic_adjective():
+    return get_adjective(["σοφος", "σοφη", "σοφον"], "212")
+
 def test_basic_adjective():
-    adj = get_adjective(["σοφος", "σοφη", "σοφον"], "212")
+    adj = get_basic_adjective()
     x = adj.decline(Gender.FEMININE, 0, Case.ACCUSATIVE, Degree.POSITIVE)
     assert x == "σοφην"
+
+def test_basic_adjective_comparative():
+    adj = get_basic_adjective()
+    x = adj.decline(Gender.MASCULINE, 1, Case.DATIVE, Degree.COMPARATIVE)
+    assert x == "σοφωτεροις"
+
+def test_basic_adjective_superlative():
+    adj = get_basic_adjective()
+    x = adj.decline(Gender.NEUTER, 1, Case.VOCATIVE, Degree.SUPERLATIVE)
+    assert x == "σοφωτατα"
+
+def test_adjective_long_last_vowel():
+    adj = get_adjective(["δεινος", "δεινη", "δεινον"], "212", last_syll_long=True)
+    x = adj.decline(Gender.MASCULINE, 0, Case.NOMINATIVE, Degree.COMPARATIVE)
+    assert x == "δεινοτερος"
+    y = adj.decline(Gender.MASCULINE, 0, Case.NOMINATIVE, Degree.SUPERLATIVE)
+    assert y == "δεινοτατος"
+
+
+
+
