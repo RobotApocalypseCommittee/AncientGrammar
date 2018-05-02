@@ -1,9 +1,9 @@
-from enum import IntEnum, auto
+from enum import Enum, IntEnum, auto
 
-class Gender(IntEnum):
-    MASCULINE = 0
-    FEMININE = 1
-    NEUTER = 2
+class Gender(Enum):
+    MASCULINE = auto()
+    FEMININE = auto()
+    NEUTER = auto()
 
 class Case(IntEnum):
     NOMINATIVE = 0
