@@ -5,6 +5,7 @@ from ancientgrammar.data import NENDINGS
 class FleshedAdjective(Adjective):
     def __init__(self, stem:str, endings, **options):
         super().__init__(stem, endings, **options)
+        print(NENDINGS)
         if "comparative" not in options:
             self.comparative = Adjective(self.stem+"τερ", NENDINGS["ALPHA_212"])
         else:
