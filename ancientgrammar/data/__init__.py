@@ -1,5 +1,6 @@
 import os.path
 import json
+import copy
 
 def path_to_file(fname:str):
     here = os.path.abspath(os.path.dirname(__file__))
@@ -8,12 +9,11 @@ def path_to_file(fname:str):
 
 with open(path_to_file("nendings.json"), encoding="utf-8") as f:
     obj = json.load(f)
-    alpha = dict(obj["STANDARD_212"])
+    alpha = copy.deepcopy(obj["STANDARD_212"])
     alpha["FEMININE"][0] = obj["ALPHA_212"]["FEMININE"][0]
     obj["ALPHA_212"] = alpha
-    halpha = dict(obj["STANDARD_212"])
+    halpha = copy.deepcopy(obj["STANDARD_212"])
     halpha["FEMININE"][0] = obj["HALPHA_212"]["FEMININE"][0]
     obj["HALPHA_212"] = halpha
-
 
 NENDINGS = obj

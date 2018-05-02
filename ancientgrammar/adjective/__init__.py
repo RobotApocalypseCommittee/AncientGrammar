@@ -8,9 +8,7 @@ def get_adjective(parts, adjtype:str, **options):
             # 212 Adjective
             stem = parts[0][:-2]
             ending = NENDINGS["STANDARD_212"]
-            print("NOOT")
             if is_vowel(stem[-1]):
-                print("NOOT")
                 if "halfeta" in options and options["halfeta"]:
                     ending = NENDINGS["HALPHA_212"]
                 else:
