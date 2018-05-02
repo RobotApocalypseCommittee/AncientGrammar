@@ -6,12 +6,12 @@ class FleshedAdjective(Adjective):
     def __init__(self, stem:str, endings, **options):
         super().__init__(stem, endings, **options)
         if "comparative" not in options:
-            self.comparative = Adjective(self.stem+"τερ", NENDINGS["ALPHA_212"])
+            self.comparative = Adjective(self.stem+"ωτερ", NENDINGS["ALPHA_212"])
         else:
             self.comparative = options["comparative"]
 
         if "superlative" not in options:
-            self.superlative = Adjective(self.stem+"τατ", NENDINGS["STANDARD_212"])
+            self.superlative = Adjective(self.stem+"ωτατ", NENDINGS["STANDARD_212"])
         else:
             self.comparative = options["superlative"]
 
