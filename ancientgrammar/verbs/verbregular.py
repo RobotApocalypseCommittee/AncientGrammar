@@ -8,7 +8,6 @@ from .verb import Mood, Tense, Verb, VerbComputeError, VerbParseError, Voice
 class AoristTypes(Enum):
     WEAK = auto()
     STRONG = auto()
-    ROOT = auto()
 
 class ContractTypes(Enum):
     ALPHA = auto()
@@ -26,8 +25,10 @@ class RegularVerb(Verb):
     '''
     VERB_TABLE = json.load(open("ancientgrammar/verbs/regular_endings.json", encoding="utf-8"))
 
-    def __init__(self, present=None, future=None, aorist=None, aorist_passive=None):
+    def __init__(self, present=None, future=None, aorist=None, aorist_passive=None, uncommon_epsilon_augment=False):
         '''Initialises, taking forms and converting to stems'''
+
+        self.uncommon_epsilon_augment = uncommon_epsilon_augment
 
         if re.search(r"αω$", present) is not None:
             self.contract = ContractTypes.ALPHA
@@ -58,9 +59,6 @@ class RegularVerb(Verb):
         elif re.search(r"ον$", aorist) is not None:
             self.aorist_type = AoristTypes.STRONG
             self.aorist = aorist[:-2]
-        elif re.search(r"ν$", aorist) is not None:
-            self.aorist_type = AoristTypes.ROOT
-            self.aorist = aorist[:-1]
         else:
             raise VerbParseError("Aorist not recognised as a specified type!")
         
@@ -75,11 +73,13 @@ class RegularVerb(Verb):
         if not mood.is_finite():
             raise VerbComputeError("The passed mood is not finite!")
         
+        stem = None
+
         if tense is Tense.PRESENT:
             stem = self.present
 
         elif tense is Tense.FUTURE:
-            # handles as a present (same endings) but adds ησ if it's aor pass
+            # handles as a present (same endings) but adds ησ if it's aor pass stem
             tense = Tense.PRESENT
             if voice is Voice.PASSIVE:
                 stem = self.aorist_passive + "ησ"
@@ -89,10 +89,11 @@ class RegularVerb(Verb):
         elif tense is Tense.IMPERFECT:
             stem = self.present
             if mood is Mood.INDICATIVE:
-                stem = self.calculate_augment(stem)
+                stem = self.calculate_augment(stem, self.uncommon_epsilon_augment)
 
         else: # aorist
             if voice is Voice.PASSIVE:
+                # all passive aorists are the same
                 aorist_type = AoristTypes.WEAK
                 stem = self.aorist_passive
             else:
@@ -100,13 +101,13 @@ class RegularVerb(Verb):
                 stem = self.aorist
 
             if mood is Mood.INDICATIVE:
-                stem = self.calculate_augment(stem)
+                stem = self.calculate_augment(stem, self.uncommon_epsilon_augment)
         
         if stem is None:
             raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")
         
         if tense is tense.AORIST:
-            ending = 
+            ending = self.VERB_TABLE["AORIST"][mood.name][voice.name][aorist_type.name][str(person)][str(is_plural)]
         elif tense is Tense.PRESENT and mood is Mood.OPTATIVE and voice is Voice.ACTIVE and not is_plural:
             # handle dodge optative
             ending = self.VERB_TABLE["PRESENT"]["OPTATIVE"]["ACTIVE"][str(person)]["False"][str(self.contract is not None)]
@@ -119,12 +120,23 @@ class RegularVerb(Verb):
         if not aspect.is_aspect():
             raise VerbComputeError("The passed tense does not have an imperative!")
 
+        stem = None
+
         if aspect is Tense.PRESENT:
             stem = self.present
+            ending = self.VERB_TABLE[aspect.name]["IMPERATIVE"][voice.name]["2"][str(is_plural)]
         else: # aorist
-            stem = self.aorist
+            if voice is voice.PASSIVE:
+                aorist_type = AoristTypes.WEAK
+                stem = self.aorist_passive
+            else:
+                aorist_type = self.aorist_type
+                stem = self.aorist
+
+            ending = self.VERB_TABLE[aspect.name]["IMPERATIVE"][voice.name][aorist_type.name]["2"][str(is_plural)]
         
-        ending = self.VERB_TABLE[aspect.name]["IMPERATIVE"][voice.name][str(is_plural)]
+        if stem is None:
+            raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")
 
         return stem + ending
     
@@ -143,10 +155,15 @@ class RegularVerb(Verb):
 
         else: # aorist
             if voice is Voice.PASSIVE:
+                aorist_type = AoristTypes.WEAK
                 stem = self.aorist_passive
             else:
+                aorist_type = self.aorist_type
                 stem = self.aorist
         
-        ending = self.VERB_TABLE[tense.name]["INFINITIVE"][voice.name]
+        if tense is Tense.AORIST:
+            ending = self.VERB_TABLE[tense.name]["INFINITIVE"][voice.name][aorist_type.name]
+        else:
+            ending = self.VERB_TABLE[tense.name]["INFINITIVE"][voice.name]
 
         return stem + ending
