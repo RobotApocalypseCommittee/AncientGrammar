@@ -75,7 +75,7 @@ class Verb():
                 
                 length = len(unicodedata.normalize("NFD", unicodedata.normalize("NFC", stem)[:len(start)]))
 
-                return Verb.calculate_breathing(stem, Verb.AUGMENTS[start], length)
+                return Verb.calculate_breathing(unicodedata.normalize("NFD", stem), Verb.AUGMENTS[start], length)
 
         if remove_accents(stem).startswith("ε"):
             if uncommon_epsilon:
@@ -87,7 +87,7 @@ class Verb():
     def calculate_breathing(stem, augment, length):
         # smooth breathing
         if u"\u0313" in unicodedata.normalize("NFD", stem):
-            return unicodedata.normalize("NFC", augment + u"\u0313") + stem[length:]
+            return unicodedata.normalize("NFC", augment + u"\u0313" + stem[length:])
         elif u"\u0314" in unicodedata.normalize("NFD", stem):
             return unicodedata.normalize("NFC", augment + u"\u0314") + stem[length:]
         else:
