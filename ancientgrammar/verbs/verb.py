@@ -89,6 +89,6 @@ class Verb():
         if u"\u0313" in unicodedata.normalize("NFD", stem):
             return unicodedata.normalize("NFC", augment + u"\u0313" + stem[length:])
         elif u"\u0314" in unicodedata.normalize("NFD", stem):
-            return unicodedata.normalize("NFC", augment + u"\u0314") + stem[length:]
+            return unicodedata.normalize("NFC", augment + u"\u0314" + stem[length:])
         else:
             raise VerbComputeError("Could not ascertain breathing!")
