@@ -14,3 +14,4 @@ def remove_accents(string:str):
     '''Keeps IOTA SUBSCRIPT'''
     return unicodedata.normalize("NFC", ''.join(c for c in unicodedata.normalize('NFD', string) 
             if unicodedata.category(c) != 'Mn' or c == "\u0345"))
+

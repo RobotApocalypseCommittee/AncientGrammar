@@ -2,6 +2,7 @@ import json
 import re
 from enum import Enum, auto
 
+from ancientgrammar.data import path_to_file
 from .verb import Mood, Tense, Verb, VerbComputeError, VerbParseError, Voice
 
 
@@ -24,7 +25,7 @@ class RegularVerb(Verb):
 
     VERB_TABLE["PRESENT"]["OPTATIVE"]["ACTIVE"][PERSON]["False"][CONTRACT]
     '''
-    VERB_TABLE = json.load(open("ancientgrammar/verbs/regular_endings.json", encoding="utf-8"))
+    VERB_TABLE = json.load(open(path_to_file("regular_endings.json"), encoding="utf-8"))
 
     def __init__(self, present=None, future=None, aorist=None, aorist_passive=None):
         '''Initialises, taking forms and converting to stems'''
