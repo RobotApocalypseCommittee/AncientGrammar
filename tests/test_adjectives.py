@@ -19,3 +19,13 @@ def test_basic_adjective_superlative():
     x = adj.decline(Gender.NEUTER, 1, Case.VOCATIVE, Degree.SUPERLATIVE)
     assert x == "σοφωτατα"
 
+def test_adjective_long_last_vowel():
+    adj = get_adjective(["δεινος", "δεινη", "δεινον"], "212", last_syll_long=True)
+    x = adj.decline(Gender.MASCULINE, 0, Case.NOMINATIVE, Degree.COMPARATIVE)
+    assert x == "δεινοτερος"
+    y = adj.decline(Gender.MASCULINE, 0, Case.NOMINATIVE, Degree.SUPERLATIVE)
+    assert y == "δεινοτατος"
+
+
+
+

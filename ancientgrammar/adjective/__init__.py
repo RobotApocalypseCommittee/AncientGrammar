@@ -13,4 +13,7 @@ def get_adjective(parts, adjtype:str, **options):
                     ending = NENDINGS["HALPHA_212"]
                 else:
                     ending = NENDINGS["ALPHA_212"]
+            if "last_syll_long" in options and options["last_syll_long"]:
+                options["comparative"] = stem + "οτερος"
+                options["superlative"] = stem + "οτατος"
             return FleshedAdjective(stem, ending, **options)
