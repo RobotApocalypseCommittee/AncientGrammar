@@ -3,7 +3,7 @@ import re
 from enum import Enum, auto
 
 from ancientgrammar.data import path_to_file
-from .verb import Mood, Tense, Verb, VerbComputeError, VerbParseError, Voice
+from ancientgrammar.verbs.verb import Mood, Tense, Verb, VerbComputeError, VerbParseError, Voice
 
 
 class AoristTypes(Enum):

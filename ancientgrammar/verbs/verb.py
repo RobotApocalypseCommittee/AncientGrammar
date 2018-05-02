@@ -3,7 +3,7 @@ import re
 from enum import Enum, auto
 import unicodedata
 
-from ..utils import is_vowel, is_equal, remove_accents
+from ancientgrammar.utils import is_vowel, is_equal, remove_accents
 
 class VerbParseError(Exception):
     pass
