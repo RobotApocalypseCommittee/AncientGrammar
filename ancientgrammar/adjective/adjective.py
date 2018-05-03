@@ -8,6 +8,7 @@ class Adjective:
     def __init__(self, stem:str, endings:list, **options):
         self.stem = stem
         self.endings = endings
+        self.options = options
 
 
     def decline(self, gender:Gender, number:bool, case:Case):
