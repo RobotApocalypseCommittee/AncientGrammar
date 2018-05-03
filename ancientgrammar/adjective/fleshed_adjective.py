@@ -3,6 +3,7 @@ from ancientgrammar.qualifiers import Case, Gender, Degree
 from ancientgrammar.data import NENDINGS
 
 class FleshedAdjective(Adjective):
+    is_fleshed = True
     def __init__(self, adjective:Adjective):
         options = adjective.options
         super().__init__(adjective.stem, adjective.endings, **options)

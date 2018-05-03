@@ -29,7 +29,10 @@ def get_adjective(parts:list, adjtype:str, **options):
             if "comparative" not in options:
                 options["comparative"] = stem + "εστερος"
                 options["superlative"] = stem + "εστατος"
+                return FleshedAdjective(Adjective33(stem, endings, **options))
+        elif parts[0].endswith("ων"):
+            endings = NENDINGS["COMPARATIVE_33WN"]
+            return Adjective33(stem, endings, **options)
         else:
             raise AdjectivalError("3-3 Adjective in unknown form.")
-        return FleshedAdjective(Adjective33(stem, endings, **options))
             

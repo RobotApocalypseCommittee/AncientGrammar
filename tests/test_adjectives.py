@@ -14,6 +14,9 @@ ADJECTIVE_TESTS = {
     ],
     "a33": [
         param(Gender.FEMININE, 0, Case.ACCUSATIVE, Degree.POSITIVE, "δυστυχη", id="basic33")
+    ],
+    "w33": [
+        param(Gender.FEMININE, 0, Case.ACCUSATIVE, "μειζονα", id="wnbasic33")
     ]
 }
 
@@ -32,6 +35,11 @@ def test_adjective_long_last_vowel(g, n, c, d, expected):
 def test_33_adjective(g, n, c, d, expected):
     adj = get_adjective(["δυστυχης"], "33")
     assert adj.decline(g, n, c, d) == expected
+
+@pytest.mark.parametrize("g,n,c,expected", ADJECTIVE_TESTS["w33"])
+def test_33_comparative(g, n, c, expected):
+    adj = get_adjective(["μειζων"], "33")
+    assert adj.decline(g, n, c) == expected
 
 
 
