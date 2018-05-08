@@ -5,6 +5,7 @@
             "future":"λυσω",
             "aorist":"λυσα",
             "aorist_passive":"λυθην",
+            "preposition":null,
             "uncommon_epsilon":"False",
             "tests":[
                 {
@@ -14,6 +15,32 @@
                     "person":1,
                     "plural":"False",
                     "expected":"λυω"
+                },
+                {
+                    "tense":"IMPERFECT",
+                    "mood":"INDICATIVE",
+                    "voice":"PASSIVE",
+                    "person":2,
+                    "plural":"True",
+                    "expected":"ἐλυεσθε"
+                }
+            ]
+        },
+        {
+            "present":"προαγω",
+            "future":"προαξω",
+            "aorist":"προηξα",
+            "aorist_passive":null,
+            "preposition":"προ",
+            "uncommon_epsilon":"False",
+            "tests":[
+                {
+                    "tense":"AORIST",
+                    "mood":"INDICATIVE",
+                    "voice":"ACTIVE",
+                    "person":3,
+                    "plural":"True",
+                    "expected":"προηξαν"
                 }
             ]
         }

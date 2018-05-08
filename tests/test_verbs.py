@@ -33,7 +33,7 @@ REGULAR_FINITE_TESTS = []
 
 for full_verb in TESTS["REGULAR"]:
     verb_object = RegularVerb(full_verb["present"], full_verb["future"], full_verb["aorist"],
-                              full_verb["aorist_passive"], full_verb["uncommon_epsilon"])
+                              full_verb["aorist_passive"], full_verb["preposition"], full_verb["uncommon_epsilon"])
 
     for test in full_verb["tests"]:
         test_info_list = [verb_object]

@@ -26,9 +26,10 @@ class RegularVerb(Verb):
     '''
     VERB_TABLE = json.load(open(path_to_file("regular_endings.json"), encoding="utf-8"))
 
-    def __init__(self, present=None, future=None, aorist=None, aorist_passive=None, uncommon_epsilon_augment=False):
+    def __init__(self, present=None, future=None, aorist=None, aorist_passive=None, preposition=None, uncommon_epsilon_augment=False):
         '''Initialises, taking forms and converting to stems'''
 
+        self.preposition = preposition
         self.uncommon_epsilon_augment = uncommon_epsilon_augment
 
         if re.search(r"αω$", present) is not None:
@@ -90,7 +91,7 @@ class RegularVerb(Verb):
         elif tense is Tense.IMPERFECT:
             stem = self.present
             if mood is Mood.INDICATIVE:
-                stem = self.calculate_augment(stem, self.uncommon_epsilon_augment)
+                stem = self.calculate_augment(stem, self.uncommon_epsilon_augment, self.preposition)
 
         else: # aorist
             if voice is Voice.PASSIVE:
@@ -102,7 +103,7 @@ class RegularVerb(Verb):
                 stem = self.aorist
 
             if mood is Mood.INDICATIVE:
-                stem = self.calculate_augment(stem, self.uncommon_epsilon_augment)
+                stem = self.calculate_augment(stem, self.uncommon_epsilon_augment, self.preposition)
         
         if stem is None:
             raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")

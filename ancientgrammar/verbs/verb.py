@@ -46,7 +46,9 @@ class Verb():
         "ι":"ι",
         "ο":"ω",
         "οι":u"ω\u0345",
-        "υ":"υ"
+        "υ":"υ",
+        "η":"η",
+        "ω":"ω"
     }
 
     def get_finite_form(self, tense: Tense, mood: Mood, voice: Voice, person: int, is_plural: bool):
@@ -63,31 +65,57 @@ class Verb():
         pass
 
     @staticmethod
-    def calculate_augment(stem, uncommon_epsilon=False):
+    def calculate_augment(stem, uncommon_epsilon=False, preposition=None):
+        
+        # Preposition set up
+        has_prep = False
+        if preposition is not None:
+            has_prep = True
+            if not (is_equal(preposition, "προ") or is_equal(preposition, "περι")) and is_vowel(preposition[-1]):
+                to_add = preposition[:-1]
+            else:
+                to_add = preposition
+            
+            stem = stem[len(preposition):]
+        # No longer prepositioning
+
         if stem is None:
             return
 
         if not is_vowel(stem[0]):
-            return unicodedata.normalize("NFC", u"ε\u0313") + stem
+            to_return = unicodedata.normalize("NFC", u"ε\u0313") + stem
+
+            if preposition is not None:
+                return to_add + to_return
+            else:
+                return to_return
         
         for start in Verb.AUGMENTS:
             if remove_accents(stem).startswith(start):
                 
                 length = len(unicodedata.normalize("NFD", unicodedata.normalize("NFC", stem)[:len(start)]))
 
-                return Verb.calculate_breathing(unicodedata.normalize("NFD", stem), Verb.AUGMENTS[start], length)
+                to_return = Verb.calculate_breathing(unicodedata.normalize("NFD", stem), Verb.AUGMENTS[start], length, has_prep)
 
-        if remove_accents(stem).startswith("ε"):
+        if remove_accents(stem).startswith("ε") and to_return is None:
             if uncommon_epsilon:
-                return Verb.calculate_breathing(stem, "ει", 1)
+                to_return = Verb.calculate_breathing(stem, "ει", 1, has_prep)
             else:
-                return Verb.calculate_breathing(stem, "η", 1)
+                to_return = Verb.calculate_breathing(stem, "η", 1, has_prep)
+        
+        if preposition is not None:
+            return to_add + to_return
+        else:
+            return to_return
     
     @staticmethod
-    def calculate_breathing(stem, augment, length):
+    def calculate_breathing(stem, augment, length, has_preposition):
+        if has_preposition:
+            return augment + stem[length:]
         # smooth breathing
         if u"\u0313" in unicodedata.normalize("NFD", stem):
             return unicodedata.normalize("NFC", augment + u"\u0313" + stem[length:])
+        # rough breathing
         elif u"\u0314" in unicodedata.normalize("NFD", stem):
             return unicodedata.normalize("NFC", augment + u"\u0314" + stem[length:])
         else:
