@@ -3,19 +3,22 @@ import re
 from enum import Enum, auto
 
 from ancientgrammar.data import path_to_file
-from ancientgrammar.verbs.verb import Mood, Tense, Verb, VerbComputeError, VerbParseError, Voice
+from ancientgrammar.qualifiers import ContractType
+from ancientgrammar.utils import calculate_contraction
+from ancientgrammar.verbs.verb import (Mood, Tense, Verb, VerbComputeError,
+                                       VerbParseError, Voice)
 
 
 class AoristTypes(Enum):
     WEAK = auto()
     STRONG = auto()
 
-class ContractTypes(Enum):
-    ALPHA = auto()
-    EPSILON = auto()
-
 class RegularVerb(Verb):
     '''
+    The first four arguments are to be given the first person singular indicative
+    (and if not otherwise stated, active) form of that tense for the verb you want
+    in ALL cases.
+
     So here's the setup of the VERB_TABLE:
 
     VERB_TABLE[TENSE][MOOD][VOICE][PERSON][PLURAL]
@@ -23,6 +26,13 @@ class RegularVerb(Verb):
     For present active singular optatives, the setup is slightly different:
 
     VERB_TABLE["PRESENT"]["OPTATIVE"]["ACTIVE"][PERSON]["False"][CONTRACT]
+
+    The preposition argument is to give the preposition which preceeds the
+    verb in a compound verb (such as απο or περι)
+
+    Uncommon epsilon augment refers to the few (but not unique) verbs which,
+    starting with ε, instead of the temporal augment lengthening it to η, it instead
+    becomes ει (like εχω)
     '''
     VERB_TABLE = json.load(open(path_to_file("regular_endings.json"), encoding="utf-8"))
 
@@ -33,9 +43,9 @@ class RegularVerb(Verb):
         self.uncommon_epsilon_augment = uncommon_epsilon_augment
 
         if re.search(r"αω$", present) is not None:
-            self.contract = ContractTypes.ALPHA
+            self.contract = ContractType.ALPHA
         elif re.search(r"εω$", present) is not None:
-            self.contract = ContractTypes.EPSILON
+            self.contract = ContractType.EPSILON
         else:
             self.contract = None
 
@@ -71,7 +81,7 @@ class RegularVerb(Verb):
         else:
             self.aorist_passive = aorist_passive[:-2]
     
-    def get_finite_form(self, tense: Tense, mood: Mood, voice: Voice, person: int, is_plural: bool):
+    def get_finite_form(self, tense: Tense, mood: Mood, voice: Voice, person: int, is_plural: bool, autocontract=True):
         if not mood.is_finite():
             raise VerbComputeError("The passed mood is not finite!")
         
@@ -108,7 +118,7 @@ class RegularVerb(Verb):
         if stem is None:
             raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")
         
-        if tense is tense.AORIST:
+        if tense is Tense.AORIST:
             ending = self.VERB_TABLE["AORIST"][mood.name][voice.name][aorist_type.name][str(person)][str(is_plural)]
         elif tense is Tense.PRESENT and mood is Mood.OPTATIVE and voice is Voice.ACTIVE and not is_plural:
             # handle dodge optative
@@ -116,9 +126,12 @@ class RegularVerb(Verb):
         else:
             ending = self.VERB_TABLE[tense.name][mood.name][voice.name][str(person)][str(is_plural)]
 
-        return stem + ending
+        if autocontract and tense is not Tense.FUTURE and not (tense is Tense.AORIST and self.aorist_type is AoristTypes.WEAK):
+            return calculate_contraction(stem, ending, self.contract)
+        else:
+            return stem + ending
     
-    def get_imperative(self, aspect: Tense, voice: Voice, is_plural: bool):
+    def get_imperative(self, aspect: Tense, voice: Voice, is_plural: bool, autocontract=True):
         if not aspect.is_aspect():
             raise VerbComputeError("The passed tense does not have an imperative!")
 
@@ -140,11 +153,18 @@ class RegularVerb(Verb):
         if stem is None:
             raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")
 
-        return stem + ending
+        if autocontract:
+            return calculate_contraction(stem, ending, self.contract)
+        else:
+            return stem + ending
     
-    def get_infinitive(self, tense: Tense, voice: Voice):
+    def get_infinitive(self, tense: Tense, voice: Voice, auotocontract=True):
+        spurious_ei = False
+
         if tense is Tense.PRESENT:
             stem = self.present
+            if voice is Voice.ACTIVE:
+                spurious_ei = True
 
         elif tense is Tense.FUTURE:
             if voice is Voice.PASSIVE:
@@ -168,4 +188,7 @@ class RegularVerb(Verb):
         else:
             ending = self.VERB_TABLE[tense.name]["INFINITIVE"][voice.name]
 
-        return stem + ending
+        if auotocontract:
+            return calculate_contraction(stem, ending, self.contract, spurious_ei=spurious_ei)
+        else:
+            return stem + ending

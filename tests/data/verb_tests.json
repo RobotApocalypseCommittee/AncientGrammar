@@ -43,6 +43,58 @@
                     "expected":"προηξαν"
                 }
             ]
+        },
+        {
+            "present":"τιμαω",
+            "future":"τιμησω",
+            "aorist":"τιμησα",
+            "aorist_passive":"τιμηθην",
+            "preposition":null,
+            "uncommon_epsilon":"False",
+            "tests":[
+                {
+                    "tense":"AORIST",
+                    "mood":"SUBJUNCTIVE",
+                    "voice":"ACTIVE",
+                    "person":1,
+                    "plural":"True",
+                    "expected":"τιμησωμεν"
+                },
+                {
+                    "tense":"IMPERFECT",
+                    "mood":"INDICATIVE",
+                    "voice":"PASSIVE",
+                    "person":2,
+                    "plural":"False",
+                    "expected":"ἐτιμω"
+                }
+            ]
+        },
+        {
+            "present":"καλεω",
+            "future":"καλεω",
+            "aorist":"καλεσα",
+            "aorist_passive":"κληθην",
+            "preposition":null,
+            "uncommon_epsilon":"False",
+            "tests":[
+                {
+                    "tense":"AORIST",
+                    "mood":"SUBJUNCTIVE",
+                    "voice":"PASSIVE",
+                    "person":1,
+                    "plural":"False",
+                    "expected":"κληθω"
+                },
+                {
+                    "tense":"PRESENT",
+                    "mood":"INDICATIVE",
+                    "voice":"ACTIVE",
+                    "person":1,
+                    "plural":"True",
+                    "expected":"καλουμεν"
+                }
+            ]
         }
     ]
 }
