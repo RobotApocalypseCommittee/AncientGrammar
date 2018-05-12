@@ -21,3 +21,5 @@ with open(path_to_file("nendings.json"), encoding="utf-8") as f:
     obj["HALPHA_212"] = halpha
 
 NENDINGS = obj
+
+CONTRACTS = json.load(open(path_to_file("contractions.json"), encoding="utf-8"))

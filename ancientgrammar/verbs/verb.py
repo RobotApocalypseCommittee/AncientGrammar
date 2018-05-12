@@ -51,13 +51,13 @@ class Verb():
         "ω":"ω"
     }
 
-    def get_finite_form(self, tense: Tense, mood: Mood, voice: Voice, person: int, is_plural: bool):
+    def get_finite_form(self, tense: Tense, mood: Mood, voice: Voice, person: int, is_plural: bool, autocontract: bool):
         pass
     
-    def get_imperative(self, aspect: Tense, voice: Voice, is_plural: bool):
+    def get_imperative(self, aspect: Tense, voice: Voice, is_plural: bool, autocontract: bool):
         pass
     
-    def get_infinitive(self, tense: Tense, voice: Voice):
+    def get_infinitive(self, tense: Tense, voice: Voice, autocontract: bool):
         pass
     
     def get_participle(self):
@@ -65,7 +65,7 @@ class Verb():
         pass
 
     @staticmethod
-    def calculate_augment(stem, uncommon_epsilon=False, preposition=None):
+    def calculate_augment(stem: str, uncommon_epsilon=False, preposition=None):
         
         # Preposition set up
         has_prep = False
@@ -109,7 +109,7 @@ class Verb():
             return to_return
     
     @staticmethod
-    def calculate_breathing(stem, augment, length, has_preposition):
+    def calculate_breathing(stem: str, augment: str, length: int, has_preposition: bool):
         if has_preposition:
             return augment + stem[length:]
         # smooth breathing

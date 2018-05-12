@@ -16,3 +16,7 @@ class Degree(IntEnum):
     POSITIVE = 0
     COMPARATIVE = 1
     SUPERLATIVE = 2
+
+class ContractType(Enum):
+    ALPHA = auto()
+    EPSILON = auto()
