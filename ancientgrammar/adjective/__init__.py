@@ -2,7 +2,7 @@ from ancientgrammar.adjective.fleshed_adjective import FleshedAdjective
 from ancientgrammar.adjective.adjective import Adjective
 from ancientgrammar.adjective.adjective33 import Adjective33
 from ancientgrammar.data import NENDINGS
-from ancientgrammar.utils import is_vowel
+from ancientgrammar.utils import is_vowel, is_equal
 
 class AdjectivalError(Exception):
     pass
@@ -40,4 +40,18 @@ def get_adjective(parts:list, adjtype:str, **options):
             return get_adjective(parts, "212", has_feminine=False)
         else:
             raise AdjectivalError("3-3 Adjective in unknown form.")
+    elif adjtype == "313":
+        # 3-1-3 adjective - TODO bradus type
+        if is_equal(parts[0][-2:], "ων"):
+            stem = parts[0][:-2]
+            endings = NENDINGS["PARTICIPLE_313"]
+            return Adjective(stem, endings) # no comparative or superlative
+        elif is_equal(parts[0][-2:], "ας"):
+            stem = parts[0][:-2]
+            endings = NENDINGS["WEAK_PARTICIPLE_313"]
+            return Adjective(stem, endings)
+        elif is_equal(parts[0][-3:], "εις"):
+            stem = parts[0][:-3]
+            endings = NENDINGS["PASS_PARTICIPLE_313"]
+            return Adjective(stem, endings)
             

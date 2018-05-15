@@ -2,6 +2,7 @@ import json
 import re
 from enum import Enum, auto
 
+from ancientgrammar.adjective import get_adjective
 from ancientgrammar.data import path_to_file
 from ancientgrammar.qualifiers import ContractType
 from ancientgrammar.utils import calculate_contraction
@@ -9,7 +10,7 @@ from ancientgrammar.verbs.verb import (Mood, Tense, Verb, VerbComputeError,
                                        VerbParseError, Voice)
 
 
-class AoristTypes(Enum):
+class AoristType(Enum):
     WEAK = auto()
     STRONG = auto()
 
@@ -66,10 +67,10 @@ class RegularVerb(Verb):
         if aorist is None:
             self.aorist = False
         elif re.search(r"α$", aorist) is not None:
-            self.aorist_type = AoristTypes.WEAK
+            self.aorist_type = AoristType.WEAK
             self.aorist = aorist[:-1]
         elif re.search(r"ον$", aorist) is not None:
-            self.aorist_type = AoristTypes.STRONG
+            self.aorist_type = AoristType.STRONG
             self.aorist = aorist[:-2]
         else:
             raise VerbParseError("Aorist not recognised as a specified type!")
@@ -106,7 +107,7 @@ class RegularVerb(Verb):
         else: # aorist
             if voice is Voice.PASSIVE:
                 # all passive aorists are the same
-                aorist_type = AoristTypes.WEAK
+                aorist_type = AoristType.WEAK
                 stem = self.aorist_passive
             else:
                 aorist_type = self.aorist_type
@@ -126,7 +127,7 @@ class RegularVerb(Verb):
         else:
             ending = self.VERB_TABLE[tense.name][mood.name][voice.name][str(person)][str(is_plural)]
 
-        if autocontract and tense is not Tense.FUTURE and not (tense is Tense.AORIST and self.aorist_type is AoristTypes.WEAK):
+        if autocontract and tense is not Tense.FUTURE and not (tense is Tense.AORIST and self.aorist_type is AoristType.WEAK):
             return calculate_contraction(stem, ending, self.contract)
         else:
             return stem + ending
@@ -142,7 +143,7 @@ class RegularVerb(Verb):
             ending = self.VERB_TABLE[aspect.name]["IMPERATIVE"][voice.name]["2"][str(is_plural)]
         else: # aorist
             if voice is voice.PASSIVE:
-                aorist_type = AoristTypes.WEAK
+                aorist_type = AoristType.WEAK
                 stem = self.aorist_passive
             else:
                 aorist_type = self.aorist_type
@@ -177,7 +178,7 @@ class RegularVerb(Verb):
 
         else: # aorist
             if voice is Voice.PASSIVE:
-                aorist_type = AoristTypes.WEAK
+                aorist_type = AoristType.WEAK
                 stem = self.aorist_passive
             else:
                 aorist_type = self.aorist_type
@@ -192,3 +193,47 @@ class RegularVerb(Verb):
             return calculate_contraction(stem, ending, self.contract, spurious_ei=spurious_ei)
         else:
             return stem + ending
+    
+    def get_participle(self, tense:Tense, voice:Voice):
+        if tense is Tense.IMPERFECT:
+            raise VerbComputeError("There is no imperfect participle!")
+
+        if tense is Tense.PRESENT:
+            stem = self.present
+            if Voice is Voice.ACTIVE:
+                return get_adjective([stem+"ων", stem+"ουσα", stem+"ον"], "313")
+            else:
+                stem += "ομεν"
+                return get_adjective([stem+"ος", stem+"η", stem+"ον"], "212")
+
+        elif tense is Tense.FUTURE:
+            if voice is Voice.PASSIVE:
+                stem = self.aorist_passive + "ησομεν"
+                return get_adjective([stem+"ος", stem+"η", stem+"ον"], "212")
+            
+            stem = self.future
+
+            if voice is Voice.ACTIVE:
+                return get_adjective([stem+"ων", stem+"ουσα", stem+"ον"], "313")
+            else:
+                stem += "ομεν"
+                return get_adjective([stem+"ος", stem+"η", stem+"ον"], "212")
+        
+        elif tense is Tense.AORIST: # TODO
+            if voice is Voice.PASSIVE:
+                stem = self.aorist_passive
+                return get_adjective([stem+"εις", stem+"εισα", stem+"εν"], "313")
+            
+            stem = self.aorist
+
+            if voice is Voice.ACTIVE:
+                if self.aorist_type is AoristType.WEAK:
+                    return get_adjective([stem+"ας", stem+"ασα", stem+"αν"], "313")
+                else:
+                    return get_adjective([stem+"ων", stem+"ουσα", stem+"ον"], "313")
+            else:
+                if self.aorist_type is AoristType.WEAK:
+                    stem += "αμεν"
+                else:
+                    stem += "ομεν"
+                return get_adjective([stem+"ος", stem+"η", stem+"ον"], "212")

@@ -1,13 +1,13 @@
-{   
-    "REGULAR":[
-        {
-            "present":"λυω",
-            "future":"λυσω",
-            "aorist":"λυσα",
-            "aorist_passive":"λυθην",
-            "preposition":null,
-            "uncommon_epsilon":"False",
-            "tests":[
+[
+    {
+        "present":"λυω",
+        "future":"λυσω",
+        "aorist":"λυσα",
+        "aorist_passive":"λυθην",
+        "preposition":null,
+        "uncommon_epsilon":"False",
+        "tests":{
+            "REGULAR_FINITE":[
                 {
                     "tense":"PRESENT",
                     "mood":"INDICATIVE",
@@ -24,16 +24,36 @@
                     "plural":"True",
                     "expected":"ἐλυεσθε"
                 }
+            ],
+            "REGULAR_PARTICIPLE":[
+                {
+                    "tense":"PRESENT",
+                    "voice":"MIDDLE",
+                    "gender":"MASCULINE",
+                    "plural":"True",
+                    "case":"GENETIVE",
+                    "expected":"λυομενων"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"PASSIVE",
+                    "gender":"NEUTER",
+                    "plural":"True",
+                    "case":"DATIVE",
+                    "expected":"λυθεισι"
+                }
             ]
-        },
-        {
-            "present":"προαγω",
-            "future":"προαξω",
-            "aorist":"προηξα",
-            "aorist_passive":null,
-            "preposition":"προ",
-            "uncommon_epsilon":"False",
-            "tests":[
+        }
+    },
+    {
+        "present":"προαγω",
+        "future":"προαξω",
+        "aorist":"προηξα",
+        "aorist_passive":null,
+        "preposition":"προ",
+        "uncommon_epsilon":"False",
+        "tests":{
+            "REGULAR_FINITE":[
                 {
                     "tense":"AORIST",
                     "mood":"INDICATIVE",
@@ -43,15 +63,17 @@
                     "expected":"προηξαν"
                 }
             ]
-        },
-        {
-            "present":"τιμαω",
-            "future":"τιμησω",
-            "aorist":"τιμησα",
-            "aorist_passive":"τιμηθην",
-            "preposition":null,
-            "uncommon_epsilon":"False",
-            "tests":[
+        }
+    },
+    {
+        "present":"τιμαω",
+        "future":"τιμησω",
+        "aorist":"τιμησα",
+        "aorist_passive":"τιμηθην",
+        "preposition":null,
+        "uncommon_epsilon":"False",
+        "tests":{
+            "REGULAR_FINITE":[
                 {
                     "tense":"AORIST",
                     "mood":"SUBJUNCTIVE",
@@ -69,15 +91,17 @@
                     "expected":"ἐτιμω"
                 }
             ]
-        },
-        {
-            "present":"καλεω",
-            "future":"καλεω",
-            "aorist":"καλεσα",
-            "aorist_passive":"κληθην",
-            "preposition":null,
-            "uncommon_epsilon":"False",
-            "tests":[
+        }
+    },
+    {
+        "present":"καλεω",
+        "future":"καλεω",
+        "aorist":"καλεσα",
+        "aorist_passive":"κληθην",
+        "preposition":null,
+        "uncommon_epsilon":"False",
+        "tests":{
+            "REGULAR_FINITE":[
                 {
                     "tense":"AORIST",
                     "mood":"SUBJUNCTIVE",
@@ -96,5 +120,5 @@
                 }
             ]
         }
-    ]
-}
+    }
+]
