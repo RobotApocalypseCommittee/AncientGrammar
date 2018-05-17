@@ -23,16 +23,81 @@
                     "person":2,
                     "plural":"True",
                     "expected":"ἐλυεσθε"
+                },
+                {
+                    "tense":"FUTURE",
+                    "mood":"OPTATIVE",
+                    "voice":"MIDDLE",
+                    "person":2,
+                    "plural":"False",
+                    "expected":"λυσοιο"
+                },
+                {
+
+                    "tense":"FUTURE",
+                    "mood":"INDICATIVE",
+                    "voice":"PASSIVE",
+                    "person":1,
+                    "plural":"True",
+                    "expected":"λυθησομεθα"
                 }
             ],
             "REGULAR_PARTICIPLE":[
                 {
                     "tense":"PRESENT",
+                    "voice":"ACTIVE",
+                    "gender":"FEMININE",
+                    "plural":"False",
+                    "case":"ACCUSATIVE",
+                    "expected":"λυουσαν"
+                },
+                {
+                    "tense":"PRESENT",
                     "voice":"MIDDLE",
                     "gender":"MASCULINE",
                     "plural":"True",
-                    "case":"GENETIVE",
+                    "case":"GENITIVE",
                     "expected":"λυομενων"
+                },
+                {
+                    "tense":"FUTURE",
+                    "voice":"ACTIVE",
+                    "gender":"MASCULINE",
+                    "plural":"False",
+                    "case":"VOCATIVE",
+                    "expected":"λυσων"
+                },
+                {
+                    "tense":"FUTURE",
+                    "voice":"MIDDLE",
+                    "gender":"NEUTER",
+                    "plural":"True",
+                    "case":"DATIVE",
+                    "expected":"λυσομενοις"
+                },
+                {
+                    "tense":"FUTURE",
+                    "voice":"PASSIVE",
+                    "gender":"FEMININE",
+                    "plural":"True",
+                    "case":"ACCUSATIVE",
+                    "expected":"λυθησομεναι"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"ACTIVE",
+                    "gender":"NEUTER",
+                    "plural":"False",
+                    "case":"NOMINATIVE",
+                    "expected":"λυσαν"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"MIDDLE",
+                    "gender":"FEMININE",
+                    "plural":"True",
+                    "case":"GENITIVE",
+                    "expected":"λυσαμενων"
                 },
                 {
                     "tense":"AORIST",
@@ -41,6 +106,34 @@
                     "plural":"True",
                     "case":"DATIVE",
                     "expected":"λυθεισι"
+                }
+            ]
+        }
+    },
+    {
+        "present":"λειπω",
+        "future":"λειψω",
+        "aorist":"λιπον",
+        "aorist_passive":null,
+        "preposition":null,
+        "uncommon_epsilon":"False",
+        "tests": {
+            "REGULAR_PARTICIPLE":[
+                {
+                    "tense":"AORIST",
+                    "voice":"ACTIVE",
+                    "gender":"MASCULINE",
+                    "plural":"True",
+                    "case":"NOMINATIVE",
+                    "expected":"λιποντης"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"MIDDLE",
+                    "gender":"FEMININE",
+                    "plural":"False",
+                    "case":"VOCATIVE",
+                    "expected":"λιπομενη"
                 }
             ]
         }
@@ -61,6 +154,26 @@
                     "person":3,
                     "plural":"True",
                     "expected":"προηξαν"
+                }
+            ]
+        }
+    },
+    {
+        "present":"ἀποβαλλω",
+        "future":"ἀποβαλεω",
+        "aorist":"ἀποβαλησα",
+        "aorist_passive":"ἀποβληθην",
+        "preposition":"ἀπο",
+        "uncommon_epsilon":"False",
+        "tests":{
+            "REGULAR_FINITE":[
+                {
+                    "tense":"IMPERFECT",
+                    "mood":"INDICATIVE",
+                    "voice":"MIDDLE",
+                    "person":2,
+                    "plural":"True",
+                    "expected":"ἀπεβαλλεσθε"
                 }
             ]
         }
@@ -89,6 +202,14 @@
                     "person":2,
                     "plural":"False",
                     "expected":"ἐτιμω"
+                },
+                {
+                    "tense":"PRESENT",
+                    "mood":"OPTATIVE",
+                    "voice":"ACTIVE",
+                    "person":2,
+                    "plural":"False",
+                    "expected":"τιμῳης"
                 }
             ]
         }
@@ -117,6 +238,46 @@
                     "person":1,
                     "plural":"True",
                     "expected":"καλουμεν"
+                }
+            ]
+        }
+    },
+    {
+        "present":"ἐρωταω",
+        "future":"ἐρωτησω",
+        "aorist":"ἐρωτησα",
+        "aorist_passive":"ἐρωτηθην",
+        "preposition":null,
+        "uncommon_epsilon":"False",
+        "tests":{
+            "REGULAR_FINITE":[
+                {
+                    "tense":"AORIST",
+                    "mood":"INDICATIVE",
+                    "voice":"ACTIVE",
+                    "person":3,
+                    "plural":"False",
+                    "expected":"ἠρωτησε"
+                }
+            ]
+        }
+    },
+    {
+        "present":"αἱρεω",
+        "future":"αἱρησω",
+        "aorist":"ἑλον",
+        "aorist_passive":null,
+        "preposition":null,
+        "uncommon_epsilon":"True",
+        "tests":{
+            "REGULAR_FINITE":[
+                {
+                    "tense":"AORIST",
+                    "mood":"INDICATIVE",
+                    "voice":"MIDDLE",
+                    "person":1,
+                    "plural":"False",
+                    "expected":"εἱλομην"
                 }
             ]
         }
