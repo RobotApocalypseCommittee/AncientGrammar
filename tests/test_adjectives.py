@@ -21,6 +21,14 @@ ADJECTIVE_TESTS = {
     "norm313": [
         param(Gender.NEUTER, 0, Case.ACCUSATIVE, "παυον", id="participlepresent313neut"),
         param(Gender.MASCULINE, 0, Case.ACCUSATIVE, "παυοντα", id="participlepresent313masc")
+    ],
+    "weak313": [
+        param(Gender.FEMININE, 0, Case.DATIVE, "παυσασῃ", id="participleaorist313fem"),
+        param(Gender.MASCULINE, 0, Case.GENITIVE, "παυσαντος", id="participleaorist313masc")
+    ],
+    "pass313": [
+        param(Gender.FEMININE, 1, Case.GENITIVE, "παυσθεισων", id="participlepass313fem"),
+        param(Gender.MASCULINE, 0, Case.GENITIVE, "παυσθεντος", id="participlepass313masc")
     ]
 }
 
@@ -48,4 +56,9 @@ def test_33_comparative(g, n, c, expected):
 @pytest.mark.parametrize("g,n,c,expected", ADJECTIVE_TESTS["norm313"])
 def test_313_participle_normal(g, n, c, expected):
     adj = get_adjective(["παυων", "παυουσα", "παυον"], "313")
+    assert adj.decline(g, n, c) == expected
+
+@pytest.mark.parametrize("g,n,c,expected", ADJECTIVE_TESTS["weak313"])
+def test_313_participle_weak(g, n, c, expected):
+    adj = get_adjective(["παυσας", "παυσασα", "παυσαν"], "313")
     assert adj.decline(g, n, c) == expected
