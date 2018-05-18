@@ -1,3 +1,4 @@
+from copy import deepcopy
 from enum import Enum, auto
 import unicodedata
 
@@ -58,6 +59,26 @@ class Verb:
         "η": "η",
         "ω": "ω"
     }
+
+    # self.allowed_forms should always include all tenses, but to disable that tense, all the voices can be removed
+    ALL_VOICES = [
+        Voice.ACTIVE,
+        Voice.MIDDLE,
+        Voice.PASSIVE
+    ]
+
+    ALL_FORMS_ALLOWED = {
+        Tense.PRESENT: ALL_VOICES,
+        Tense.FUTURE: ALL_VOICES,
+        Tense.IMPERFECT: ALL_VOICES,
+        Tense.AORIST: ALL_VOICES
+    }
+
+    def __init__(self):
+        self.allowed_forms = deepcopy(Verb.ALL_FORMS_ALLOWED)
+
+    def can_get_form(self, tense: Tense, voice: Voice):
+        return voice in self.allowed_forms[tense]
 
     def get_finite_form(self, tense: Tense, mood: Mood, voice: Voice, person: int, is_plural: bool, autocontract: bool):
         pass  # pragma: no cover

@@ -4,8 +4,9 @@ import json
 import pytest
 
 from ancientgrammar.qualifiers import Case, Gender
-from ancientgrammar.verbs.verb import Tense, Mood, Voice
+from ancientgrammar.verbs import get_verb
 from ancientgrammar.verbs.verbregular import RegularVerb
+from ancientgrammar.verbs.verb import Tense, Mood, Voice
 from tests.data import path_to_test
 from tests.utils import CASE_REFERENCE, GENDER_REFERENCE, MOOD_REFERENCE, TENSE_REFERENCE, VOICE_REFERENCE
 
@@ -14,9 +15,9 @@ TESTS = json.load(open(path_to_test("verb_tests.json"), "r", encoding="utf-8"))
 REGULAR_TESTS = {"FINITE": [], "IMPERATIVE": [], "INFINITIVE": [], "PARTICIPLE": []}
 
 for full_verb in TESTS:
-    verb_object = RegularVerb(full_verb["present"], full_verb["future"], full_verb["aorist"],
-                              full_verb["aorist_passive"], full_verb["preposition"],
-                              full_verb["uncommon_epsilon"] == "True")
+    verb_object = get_verb(full_verb["present"], full_verb["future"], full_verb["aorist"],
+                           full_verb["aorist_passive"], full_verb["preposition"],
+                           full_verb["uncommon_epsilon"] == "True")
 
     if full_verb["tests"].get("REGULAR_FINITE") is not None:
         for test in full_verb["tests"]["REGULAR_FINITE"]:
@@ -70,5 +71,5 @@ def test_regular_verb_infinitive(test_verb: RegularVerb, tense: Tense, voice: Vo
 
 @pytest.mark.parametrize('test_verb, tense, voice, gender, is_plural, case, expected', REGULAR_TESTS["PARTICIPLE"])
 def test_regular_verb_participle(test_verb: RegularVerb, tense: Tense, voice: Voice,
-                            gender: Gender, is_plural: bool, case: Case, expected: str):
+                                 gender: Gender, is_plural: bool, case: Case, expected: str):
     assert expected == test_verb.get_participle(tense, voice).decline(gender, is_plural, case)

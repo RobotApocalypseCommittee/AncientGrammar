@@ -120,6 +120,15 @@
         "message":"There is no imperfect participle!"
       },
       {
+        "function":"get_participle",
+        "args":[
+          ["Tense", "AORIST"],
+          ["Voice", "PASSIVE"]
+        ],
+        "kwargs":{},
+        "message":"That form of the verb either does not exist, or was not supplied!"
+      },
+      {
         "function":"calculate_breathing",
         "args":[
           ["", "λυον"],

@@ -5,6 +5,7 @@ from types import FunctionType
 # noinspection PyPackageRequirements
 import pytest
 
+from ancientgrammar.verbs import get_verb
 from ancientgrammar.verbs.verb import VerbComputeError, VerbParseError
 from ancientgrammar.verbs.verbregular import RegularVerb
 from tests.data import path_to_test
@@ -21,9 +22,9 @@ for full_verb in TESTS:
         PARSE_ERROR_TESTS.append([value for value in full_verb.values()])
         continue
     else:
-        verb_object = RegularVerb(full_verb["present"], full_verb["future"], full_verb["aorist"],
-                                  full_verb["aorist_passive"], full_verb["preposition"],
-                                  full_verb["uncommon_epsilon"] == "True")
+        verb_object = get_verb(full_verb["present"], full_verb["future"], full_verb["aorist"],
+                               full_verb["aorist_passive"], full_verb["preposition"],
+                               full_verb["uncommon_epsilon"] == "True")
 
         verb_functions = {val[0]: val[1] for val in inspect.getmembers(verb_object, predicate=inspect.ismethod)}
         verb_functions.update({val[0]: val[1] for val in inspect.getmembers(verb_object, predicate=inspect.isfunction)})
@@ -61,7 +62,7 @@ def convert_argument(proposed_type: str, value):
 def test_verb_creation_error(present: str, future: str, aorist: str, aorist_passive: str, preposition: str,
                              uncommon_epsilon: bool, message: str):
     with pytest.raises(VerbParseError) as parse_error:
-        RegularVerb(present, future, aorist, aorist_passive, preposition, uncommon_epsilon)
+        get_verb(present, future, aorist, aorist_passive, preposition, uncommon_epsilon)
     assert message == str(parse_error.value)
 
 
