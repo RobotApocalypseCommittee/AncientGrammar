@@ -44,15 +44,16 @@ def calculate_contraction(stem: str, ending: str, cont_type: ContractType, **kwa
     """
 
     if cont_type is ContractType.ALPHA:
+        if is_equal("ει", ending[:2]):
+            if "spurious_ei" in kwargs.keys() and kwargs["spurious_ei"]:
+                return stem[:-1] + ending
+            else:
+                return stem[:-1] + "ᾳ" + ending[2:]
+
         for start_of_ending in CONTRACTS["ALPHA"]:
             if is_equal(start_of_ending, ending[:len(start_of_ending)]):
                 return stem[:-1] + CONTRACTS["ALPHA"][start_of_ending] + ending[len(start_of_ending):]
 
-        if is_equal("ει", ending[:2]):
-            if "spurious_ei" in kwargs.keys() and kwargs["spurious_ei"]:
-                return stem + ending[2:]
-            else:
-                return stem[:-1] + "ᾳ" + ending[2:]
     elif cont_type is ContractType.EPSILON:
         for start_of_ending in CONTRACTS["EPSILON"]:
             if is_equal(start_of_ending, ending[:len(start_of_ending)]):

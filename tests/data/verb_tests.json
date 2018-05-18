@@ -1,7 +1,7 @@
 [
     {
-        "present":"λυω",
-        "future":"λυσω",
+        "present": "λυω",
+        "future": "λυσω",
         "aorist":"λυσα",
         "aorist_passive":"λυθην",
         "preposition":null,
@@ -40,6 +40,61 @@
                     "person":1,
                     "plural":"True",
                     "expected":"λυθησομεθα"
+                }
+            ],
+            "REGULAR_IMPERATIVE":[
+                {
+                    "tense":"PRESENT",
+                    "voice":"MIDDLE",
+                    "plural":"False",
+                    "autocontract":"True",
+                    "expected":"λυου"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"PASSIVE",
+                    "plural":"False",
+                    "autocontract":"True",
+                    "expected":"λυθητι"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"ACTIVE",
+                    "plural":"True",
+                    "autocontract":"True",
+                    "expected":"λυσατε"
+                }
+            ],
+            "REGULAR_INFINITIVE":[
+                {
+                    "tense":"PRESENT",
+                    "voice":"ACTIVE",
+                    "autocontract":"True",
+                    "expected":"λυειν"
+                },
+                {
+                    "tense":"FUTURE",
+                    "voice":"MIDDLE",
+                    "autocontract":"True",
+                    "expected":"λυσεσθαι"
+                },
+                {
+                    "tense":"FUTURE",
+                    "voice":"PASSIVE",
+                    "autocontract":"True",
+                    "expected":"λυθηςεσθαι"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"ACTIVE",
+                    "autocontract":"True",
+                    "expected":"λυσαι"
+                },
+                {
+                    "tense":"AORIST",
+                    "voice":"PASSIVE",
+                    "autocontract":"True",
+                    "expected":"λυθηναι"
                 }
             ],
             "REGULAR_PARTICIPLE":[
@@ -210,6 +265,36 @@
                     "person":2,
                     "plural":"False",
                     "expected":"τιμῳης"
+                }
+            ],
+            "REGULAR_IMPERATIVE":[
+                {
+                    "tense":"PRESENT",
+                    "voice":"PASSIVE",
+                    "plural":"True",
+                    "autocontract":"True",
+                    "expected":"τιμασθε"
+                },
+                {
+                    "tense":"PRESENT",
+                    "voice":"PASSIVE",
+                    "plural":"True",
+                    "autocontract":"False",
+                    "expected":"τιμαεσθε"
+                }
+            ],
+            "REGULAR_INFINITIVE":[
+                {
+                    "tense":"PRESENT",
+                    "voice":"ACTIVE",
+                    "autocontract":"True",
+                    "expected":"τιμειν"
+                },
+                {
+                    "tense":"PRESENT",
+                    "voice":"ACTIVE",
+                    "autocontract":"False",
+                    "expected":"τιμαειν"
                 }
             ]
         }

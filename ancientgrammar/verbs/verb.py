@@ -4,11 +4,15 @@ import unicodedata
 from ancientgrammar.utils import is_vowel, is_equal, remove_accents
 
 
-class VerbParseError(Exception):
+class BaseVerbError(Exception):
     pass
 
 
-class VerbComputeError(Exception):
+class VerbParseError(BaseVerbError):
+    pass
+
+
+class VerbComputeError(BaseVerbError):
     pass
 
 

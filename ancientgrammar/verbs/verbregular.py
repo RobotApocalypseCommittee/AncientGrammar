@@ -1,11 +1,10 @@
 import json
-import re
 from enum import Enum, auto
 
 from ancientgrammar.adjective import get_adjective
 from ancientgrammar.data import path_to_file
 from ancientgrammar.qualifiers import ContractType
-from ancientgrammar.utils import calculate_contraction, is_vowel
+from ancientgrammar.utils import calculate_contraction, is_vowel, is_equal
 from ancientgrammar.verbs.verb import (Mood, Tense, Verb, VerbComputeError,
                                        VerbParseError, Voice)
 
@@ -45,33 +44,33 @@ class RegularVerb(Verb):
         self.preposition = preposition
         self.uncommon_epsilon_augment = uncommon_epsilon_augment
 
-        if re.search(r"αω$", present) is not None:
-            self.contract = ContractType.ALPHA
-        elif re.search(r"εω$", present) is not None:
-            self.contract = ContractType.EPSILON
-        else:
-            self.contract = None
-
         if present is None:
             self.present = False
-        elif re.search(r"ω$", present) is None:
+        elif not is_equal(present[-1:], "ω"):
             raise VerbParseError("Present not regular!")
         else:
             self.present = present[:-1]
 
+            if is_equal(present[-2:], "αω"):
+                self.contract = ContractType.ALPHA
+            elif is_equal(present[-2:], "εω"):
+                self.contract = ContractType.EPSILON
+            else:
+                self.contract = None
+
         if future is None:
             self.future = False
-        elif re.search(r"ω$", future) is None:
+        elif not is_equal(future[-1:], "ω"):
             raise VerbParseError("Future not regular!")
         else:
             self.future = future[:-1]
 
         if aorist is None:
             self.aorist = False
-        elif re.search(r"α$", aorist) is not None:
+        elif is_equal(aorist[-1:], "α"):
             self.aorist_type = AoristType.WEAK
             self.aorist = aorist[:-1]
-        elif re.search(r"ον$", aorist) is not None:
+        elif is_equal(aorist[-2:], "ον"):
             self.aorist_type = AoristType.STRONG
             self.aorist = aorist[:-2]
         else:
@@ -79,7 +78,7 @@ class RegularVerb(Verb):
 
         if aorist_passive is None:
             self.aorist_passive = False
-        elif re.search(r"ην$", aorist_passive) is None:
+        elif not is_equal(aorist_passive[-2:], "ην"):
             raise VerbParseError("Aorist passive not regular!")
         else:
             self.aorist_passive = aorist_passive[:-2]
@@ -87,8 +86,6 @@ class RegularVerb(Verb):
     def get_finite_form(self, tense: Tense, mood: Mood, voice: Voice, person: int, is_plural: bool, autocontract=True):
         if not mood.is_finite():
             raise VerbComputeError("The passed mood is not finite!")
-
-        aorist_type = None
 
         if tense is Tense.PRESENT:
             stem = self.present
@@ -115,18 +112,18 @@ class RegularVerb(Verb):
                 aorist_type = self.aorist_type
                 stem = self.aorist
 
-            if mood is Mood.INDICATIVE:
+            if mood is Mood.INDICATIVE and stem:
                 stem = self.calculate_augment(stem, self.uncommon_epsilon_augment, self.preposition)
 
-        if stem is None:
+        if not stem:
             raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")
 
         if tense is Tense.AORIST:
-            if aorist_type is None:
-                raise VerbComputeError("Unable to parse aorist type!")
 
+            # noinspection PyUnboundLocalVariable
             ending = self.VERB_TABLE["AORIST"][mood.name][voice.name][aorist_type.name][str(person)][str(is_plural)]
         elif tense is Tense.PRESENT and mood is Mood.OPTATIVE and voice is Voice.ACTIVE and not is_plural:
+
             # handle dodge optative
             ending = self.VERB_TABLE["PRESENT"]["OPTATIVE"]["ACTIVE"][str(person)]["False"][
                 str(self.contract is not None)]
@@ -155,7 +152,7 @@ class RegularVerb(Verb):
 
             ending = self.VERB_TABLE[aspect.name]["IMPERATIVE"][voice.name][aorist_type.name]["2"][str(is_plural)]
 
-        if stem is None:
+        if not stem:
             raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")
 
         if autocontract:
@@ -164,9 +161,10 @@ class RegularVerb(Verb):
             return stem + ending
 
     def get_infinitive(self, tense: Tense, voice: Voice, autocontract=True):
-        spurious_ei = False
+        if tense is Tense.IMPERFECT:
+            raise VerbComputeError("There is no such thing as an imperfect infinitive!")
 
-        aorist_type = None
+        spurious_ei = False
 
         if tense is Tense.PRESENT:
             stem = self.present
@@ -174,13 +172,12 @@ class RegularVerb(Verb):
                 spurious_ei = True
 
         elif tense is Tense.FUTURE:
+            # handles as a present (same endings) but adds ησ if it's aor pass stem
+            tense = Tense.PRESENT
             if voice is Voice.PASSIVE:
-                stem = self.aorist_passive
+                stem = self.aorist_passive + "ης"
             else:
                 stem = self.future
-
-        elif tense is Tense.IMPERFECT:
-            stem = self.present
 
         else:  # aorist
             if voice is Voice.PASSIVE:
@@ -190,10 +187,11 @@ class RegularVerb(Verb):
                 aorist_type = self.aorist_type
                 stem = self.aorist
 
-        if tense is Tense.AORIST:
-            if aorist_type is None:
-                raise VerbComputeError("Unable to parse aorist type!")
+        if not stem:
+            raise VerbComputeError("That form of the verb either does not exist, or was not supplied!")
 
+        if tense is Tense.AORIST:
+            # noinspection PyUnboundLocalVariable
             ending = self.VERB_TABLE[tense.name]["INFINITIVE"][voice.name][aorist_type.name]
         else:
             ending = self.VERB_TABLE[tense.name]["INFINITIVE"][voice.name]
