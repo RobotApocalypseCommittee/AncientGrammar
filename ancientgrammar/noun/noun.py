@@ -6,4 +6,4 @@ class Noun:
         self.genitive = genitive
         self.gender = gender
     def decline(self, case:Case, plural:bool):
-        pass
+        pass  # pragma: no cover
