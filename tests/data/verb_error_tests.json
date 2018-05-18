@@ -1,0 +1,135 @@
+[
+  {
+    "present": "λυ",
+    "future": null,
+    "aorist":null,
+    "aorist_passive":null,
+    "preposition":null,
+    "uncommon_epsilon":"False",
+    "should_fail_creation":"True",
+    "message":"Present not regular!"
+  },
+  {
+    "present": null,
+    "future": "λυσ",
+    "aorist":null,
+    "aorist_passive":null,
+    "preposition":null,
+    "uncommon_epsilon":"False",
+    "should_fail_creation":"True",
+    "message":"Future not regular!"
+  },
+  {
+    "present": null,
+    "future": null,
+    "aorist":"λυσ",
+    "aorist_passive":null,
+    "preposition":null,
+    "uncommon_epsilon":"False",
+    "should_fail_creation":"True",
+    "message":"Aorist not recognised as a specified type!"
+  },
+  {
+    "present": null,
+    "future": null,
+    "aorist":null,
+    "aorist_passive":"λυθη",
+    "preposition":null,
+    "uncommon_epsilon":"False",
+    "should_fail_creation":"True",
+    "message":"Aorist passive not regular!"
+  },
+  {
+    "present": "λυω",
+    "future": "λυσω",
+    "aorist": "λυσα",
+    "aorist_passive": null,
+    "preposition": null,
+    "uncommon_epsilon": "False",
+    "should_fail_creation":"False",
+    "tests": [
+      {
+        "function":"get_finite_form",
+        "args":[
+          ["Tense", "PRESENT"],
+          ["Mood", "IMPERATIVE"],
+          ["Voice", "ACTIVE"],
+          ["", 1],
+          ["bool", "False"]
+        ],
+        "kwargs":{},
+        "message":"The passed mood is not finite!"
+      },
+      {
+        "function":"get_finite_form",
+        "args":[
+          ["Tense", "AORIST"],
+          ["Mood", "INDICATIVE"],
+          ["Voice", "PASSIVE"],
+          ["", 1],
+          ["bool", "False"]
+        ],
+        "kwargs":{},
+        "message":"That form of the verb either does not exist, or was not supplied!"
+      },
+      {
+        "function":"get_imperative",
+        "args":[
+          ["Tense", "IMPERFECT"],
+          ["Voice", "PASSIVE"],
+          ["bool", "False"]
+        ],
+        "kwargs":{},
+        "message":"The passed tense does not have an imperative!"
+      },
+      {
+        "function":"get_imperative",
+        "args":[
+          ["Tense", "AORIST"],
+          ["Voice", "PASSIVE"],
+          ["bool", "True"]
+        ],
+        "kwargs":{},
+        "message":"That form of the verb either does not exist, or was not supplied!"
+      },
+      {
+        "function":"get_infinitive",
+        "args":[
+          ["Tense", "IMPERFECT"],
+          ["Voice", "PASSIVE"]
+        ],
+        "kwargs":{},
+        "message":"There is no such thing as an imperfect infinitive!"
+      },
+      {
+        "function":"get_infinitive",
+        "args":[
+          ["Tense", "AORIST"],
+          ["Voice", "PASSIVE"]
+        ],
+        "kwargs":{},
+        "message":"That form of the verb either does not exist, or was not supplied!"
+      },
+      {
+        "function":"get_participle",
+        "args":[
+          ["Tense", "IMPERFECT"],
+          ["Voice", "MIDDLE"]
+        ],
+        "kwargs":{},
+        "message":"There is no imperfect participle!"
+      },
+      {
+        "function":"calculate_breathing",
+        "args":[
+          ["", "λυον"],
+          ["", "ε"],
+          ["", 0],
+          ["bool", "False"]
+        ],
+        "kwargs":{},
+        "message":"Could not ascertain breathing!"
+      }
+    ]
+  }
+]
