@@ -30,9 +30,8 @@ setup(
     description='When you can\'t be bothered to do greek yourself.',
 
     long_description=long_description,
-    long_description_content_type='text/markdown',
 
-    url='https://github.com/pypa/sampleproject',
+    url='https://github.com/RobotApocalypseCommittee/AncientGrammar',
 
     author='Robot Apocalypse Committee',
 
@@ -74,6 +73,8 @@ setup(
     #
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
 
+    setup_requires=["pytest-runner"],
+    tests_require=['pytest'],
 
     install_requires=[],
 
