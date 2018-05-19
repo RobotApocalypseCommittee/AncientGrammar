@@ -9,7 +9,7 @@ def determine_gender(nominative, genitive):
     last_letter = nominative[-1]
     if is_equal(last_letter, "η") or is_equal(last_letter, "α"):
         return Gender.FEMININE
-    elif is_equal(nominative[:-2], "ον"):
+    elif is_equal(nominative[-2:], "ον"):
         return Gender.NEUTER
     else:
         return Gender.MASCULINE

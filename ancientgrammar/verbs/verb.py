@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from copy import deepcopy
 from enum import Enum, auto
 import unicodedata
@@ -15,6 +16,11 @@ class VerbParseError(BaseVerbError):
 
 class VerbComputeError(BaseVerbError):
     pass
+
+
+class VerbType(Enum):
+    REGULAR = auto()
+    DEPONENT = auto()
 
 
 class Tense(Enum):
@@ -45,7 +51,7 @@ class Voice(Enum):
 
 
 class Verb:
-    AUGMENTS = {
+    AUGMENTS = OrderedDict({
         "ᾳ": u"η\u0345",
         "αι": u"η\u0345",
         "ει": u"η\u0345",
@@ -58,7 +64,7 @@ class Verb:
         "υ": "υ",
         "η": "η",
         "ω": "ω"
-    }
+    })
 
     # self.allowed_forms should always include all tenses, but to disable that tense, all the voices can be removed
     ALL_VOICES = [
@@ -68,10 +74,10 @@ class Verb:
     ]
 
     ALL_FORMS_ALLOWED = {
-        Tense.PRESENT: ALL_VOICES,
-        Tense.FUTURE: ALL_VOICES,
-        Tense.IMPERFECT: ALL_VOICES,
-        Tense.AORIST: ALL_VOICES
+        Tense.PRESENT: deepcopy(ALL_VOICES),
+        Tense.FUTURE: deepcopy(ALL_VOICES),
+        Tense.IMPERFECT: deepcopy(ALL_VOICES),
+        Tense.AORIST: deepcopy(ALL_VOICES)
     }
 
     def __init__(self):
@@ -122,6 +128,8 @@ class Verb:
 
                 to_return = Verb.calculate_breathing(unicodedata.normalize("NFD", stem), Verb.AUGMENTS[start], length,
                                                      has_prep)
+
+                break
 
         if remove_accents(stem).startswith("ε") and to_return is None:
             if uncommon_epsilon:

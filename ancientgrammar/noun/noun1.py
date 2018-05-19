@@ -3,15 +3,17 @@ from ancientgrammar.qualifiers import Gender, Case
 from ancientgrammar.utils import is_vowel, alpha_purify
 from ancientgrammar.data import NENDINGS
 
+
 class Noun1(Noun):
     endings = NENDINGS["1declnoun"]
+
     def __init__(self, nominative, gender, **kwargs):
         super().__init__(nominative, None, gender)
         if gender == Gender.MASCULINE:
             self.stem = self.nominative[:-2]
         else:
             self.stem = self.nominative[:-1]
-        
+
         if kwargs.get("halfalphapure", False):
             self.alpha = False
             self.halpha = True
@@ -19,14 +21,13 @@ class Noun1(Noun):
             self.halpha = False
             self.alpha = Noun1.is_alpha_pure(nominative, gender)
 
-
-    def decline(self, case:Case, plural:bool):
+    def decline(self, case: Case, plural: bool):
         ending = self.endings[self.gender.name][int(plural)][int(case)]
         if not plural:
             if (
-                (self.halpha and (case == Case.NOMINATIVE or case == Case.ACCUSATIVE))
-                or self.alpha
-                ):
+                    (self.halpha and (case == Case.NOMINATIVE or case == Case.ACCUSATIVE))
+                    or self.alpha
+            ):
                 ending = alpha_purify(ending)
 
         return self.stem + ending
@@ -39,4 +40,3 @@ class Noun1(Noun):
             stem = nominative[:-1]
 
         return is_vowel(stem[-1])
-

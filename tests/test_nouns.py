@@ -12,7 +12,8 @@ NOUN_TESTS = {
     ],
     "basicfem": [
         param("τιμη", "τιμης", Case.NOMINATIVE, 0, "τιμη", id="basic1fem_nom"),
-        param("χωρα", "χωπας", Case.NOMINATIVE, 0, "χωρα", id="basic1fem_nom_alpha")
+        param("χωρα", "χωπας", Case.NOMINATIVE, 0, "χωρα", id="basic1fem_nom_alpha"),
+        param("θαλασσα", "θαλασσης", Case.DATIVE, 0, "θαλασσῃ", id="basic1fem_dat_halpha")
     ],
     "basicneut": [
         param("δωρον", "δωρου", Case.NOMINATIVE, 1, "δωρα", id="basic2neut_nom")
@@ -21,7 +22,10 @@ NOUN_TESTS = {
         param("λογος", "λογου", Gender.MASCULINE, id="gender_masc2"),
         param("τιμη", "τιμης", Gender.FEMININE, id="gender_fem1"),
         param("κριτης", "κριτης", Gender.MASCULINE, id="gender_masc1"),
-        param("θαλλασσα", "θαλλασσης", Gender.FEMININE, id="gender_fem1ha"),
+        param("θαλλασσα", "θαλλασσης", Gender.FEMININE, id="gender_fem1ha")
+    ],
+    "full_gender_determination": [
+        param("τεκνον", "τεκνου", Case.ACCUSATIVE, 1, "τεκνα", id="full_gender_neut1")
     ],
     "3rd_dec": [
         param("γερων", "γερον", "γεροντος", "γερουσι", Gender.MASCULINE,
@@ -33,7 +37,10 @@ NOUN_TESTS = {
         param("ὀνομα", "ὀνομα", "ὀνοματος", "ὀνομασι", Gender.NEUTER,
               Case.ACCUSATIVE, False, "ὀνομα", id="3rd_neut1"),
         param("ὀνομα", "ὀνομα", "ὀνοματος", "ὀνομασι", Gender.NEUTER,
-              Case.DATIVE, True, "ὀνομασι", id="3rd_neut2"),
+              Case.DATIVE, True, "ὀνομασι", id="3rd_neut2")
+    ],
+    "not_implemented": [
+        param("βασιλευς", "βασιλεια", Gender.MASCULINE, id="not_implemented1")
     ]
 }
 
@@ -61,8 +68,19 @@ def test_gender_determination(nominative, genitive, expected):
     assert determine_gender(nominative, genitive) == expected
 
 
+@pytest.mark.parametrize("nominative, genitive, case, is_plural, expected", NOUN_TESTS["full_gender_determination"])
+def test_full_gender_determination(nominative, genitive, case, is_plural, expected):
+    assert expected == get_noun(nominative, genitive).decline(case, is_plural)
+
+
 @pytest.mark.parametrize('nominative, vocative, genitive, dative_plural, gender, case, is_plural, expected',
                          NOUN_TESTS["3rd_dec"])
 def test_third_declension(nominative, vocative, genitive, dative_plural, gender, case, is_plural, expected):
     noun = get_noun(nominative, genitive, gender, third=True, vocative=vocative, dative_plural=dative_plural)
     assert expected == noun.decline(case, is_plural)
+
+
+@pytest.mark.parametrize("nominative, genitive, gender", NOUN_TESTS["not_implemented"])
+def test_not_implemented(nominative, genitive, gender):
+    with pytest.raises(NotImplementedError):
+        get_noun(nominative, genitive, gender)

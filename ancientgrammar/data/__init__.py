@@ -1,6 +1,7 @@
 import os.path
 import json
 import copy
+from collections import OrderedDict
 
 def path_to_file(fname:str):
     here = os.path.abspath(os.path.dirname(__file__))
@@ -22,4 +23,4 @@ with open(path_to_file("nendings.json"), encoding="utf-8") as f:
 
 NENDINGS = obj
 
-CONTRACTS = json.load(open(path_to_file("contractions.json"), encoding="utf-8"))
+CONTRACTS = OrderedDict(json.load(open(path_to_file("contractions.json"), encoding="utf-8")))

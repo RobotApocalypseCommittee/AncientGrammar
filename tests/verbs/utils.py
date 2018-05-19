@@ -35,3 +35,24 @@ CASE_REFERENCE = {
     "GENITIVE": Case.GENITIVE,
     "DATIVE": Case.DATIVE
 }
+
+
+def convert_args(args: list):
+    return [convert_argument(val[0], val[1]) for val in args]
+
+
+def convert_kwargs(kwargs: dict):
+    return {key: convert_argument(val[0], val[1]) for (key, val) in kwargs.items()}
+
+
+def convert_argument(proposed_type: str, value):
+    if proposed_type == "bool":
+        return value == "True"
+    elif proposed_type == "Tense":
+        return TENSE_REFERENCE[value]
+    elif proposed_type == "Mood":
+        return MOOD_REFERENCE[value]
+    elif proposed_type == "Voice":
+        return VOICE_REFERENCE[value]
+    else:
+        return value

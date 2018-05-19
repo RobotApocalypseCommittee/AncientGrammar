@@ -64,6 +64,8 @@ class DeponentVerb(RegularVerb):
         else:
             raise VerbParseError("Future not regular!")
 
+        # Variable to store whether the aorist passive has been accounted for by the aorist (passive form aorists)
+        aorist_passive_covered = False
         if aorist is None:
             self.allowed_forms[Tense.AORIST] = [Voice.PASSIVE]
         elif is_equal(aorist[-1:], "α"):
@@ -87,15 +89,16 @@ class DeponentVerb(RegularVerb):
         elif is_equal(aorist[-2:], "ην"):
             self.deponent_parts["AORIST_(PASSIVE)"] = True
             self.aorist_type = AoristType.WEAK
-            self.aorist = aorist[:-2]
+            self.aorist_passive = aorist[:-2]
 
             self.allowed_forms[Tense.AORIST] = [Voice.PASSIVE]
+            aorist_passive_covered = True
         else:
             raise VerbParseError("Aorist not recognised as a specified type!")
 
         # This means that there is not just aorist passive left - i.e. it is not a passive form aorist
         # In that case, the passive aorist would have been covered by the aorist section
-        if len(self.allowed_forms[Tense.AORIST]) > 1:
+        if not aorist_passive_covered:
             if aorist_passive is None:
                 self.allowed_forms[Tense.AORIST].remove(Voice.PASSIVE)
             elif not is_equal(aorist_passive[-2:], "ην"):
