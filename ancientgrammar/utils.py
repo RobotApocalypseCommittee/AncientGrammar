@@ -40,15 +40,16 @@ def calculate_contraction(stem: str, ending: str, cont_type: ContractType, **kwa
     """
         Kwargs can be:
         "spurious_ei" (as true) to signify that the ει in the ending is 'spurious'
-        "d_or_p_noun" (as true) to signify that this is a noun, and is either dual or plural
+        "d_or_p_noun" (as true) to signify that this is a noun, and is either dual or plural - DEPRECATED FOR ATTIC
     """
 
     if cont_type is ContractType.ALPHA:
         if is_equal("ει", ending[:2]):
             if "spurious_ei" in kwargs.keys() and kwargs["spurious_ei"]:
                 return stem[:-1] + ending
-            else:
-                return stem[:-1] + "ᾳ" + ending[2:]
+            # These will remain no cover until I have actually found an example where this exists TODO
+            else:  # pragma: no cover
+                return stem[:-1] + "ᾳ" + ending[2:]  # pragma: no cover
 
         for start_of_ending in CONTRACTS["ALPHA"]:
             if is_equal(start_of_ending, ending[:len(start_of_ending)]):
@@ -59,15 +60,10 @@ def calculate_contraction(stem: str, ending: str, cont_type: ContractType, **kwa
             if is_equal(start_of_ending, ending[:len(start_of_ending)]):
                 return stem[:-1] + CONTRACTS["EPSILON"][start_of_ending] + ending[len(start_of_ending):]
 
-        if is_equal("α", ending[0]):
-            if "d_or_p_noun" in kwargs.keys() and kwargs["d_or_p_noun"]:
-                return stem + "α" + ending[1:]
-            else:
-                return stem + "η" + ending[1:]
-        elif is_equal("αι", ending[:2]):
-            if "d_or_p_noun" in kwargs.keys() and kwargs["d_or_p_noun"]:
-                return stem + "α" + ending[1:]
-            else:
-                return stem + "ῃ" + ending[1:]
+        # Until epsilon contract verbs have been implemented (or some other things), this shall stay uncovered TODO
+        if is_equal("α", ending[0]):  # pragma: no cover
+                return stem + "η" + ending[1:]  # pragma: no cover
+        elif is_equal("αι", ending[:2]):  # pragma: no cover
+                return stem + "ῃ" + ending[1:]  # pragma: no cover
 
     return stem + ending

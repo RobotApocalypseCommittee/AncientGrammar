@@ -13,6 +13,7 @@ NOUN_TESTS = {
     "basicfem": [
         param("τιμη", "τιμης", Case.NOMINATIVE, 0, "τιμη", id="basic1fem_nom"),
         param("χωρα", "χωπας", Case.NOMINATIVE, 0, "χωρα", id="basic1fem_nom_alpha"),
+        param("χωρα", "χωπας", Case.DATIVE, 0, "χωρᾳ", id="basic1fem_dat_alpha"),
         param("θαλασσα", "θαλασσης", Case.DATIVE, 0, "θαλασσῃ", id="basic1fem_dat_halpha")
     ],
     "basicneut": [
