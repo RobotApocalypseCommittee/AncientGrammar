@@ -1,5 +1,3 @@
-import json
-
 from ancientgrammar.qualifiers import Case, Gender, Degree
 from ancientgrammar.utils import is_vowel
 from ancientgrammar.data import path_to_file, NENDINGS
