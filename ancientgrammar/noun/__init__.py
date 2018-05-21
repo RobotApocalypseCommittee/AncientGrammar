@@ -25,13 +25,14 @@ def get_noun(nominative, genitive, gender: Gender=None, **kwargs):
             return Noun1(nominative, Gender.FEMININE, halfalphapure=True)
         else:
             return Noun1(nominative, Gender.FEMININE)
-    elif (nominative.endswith("ης") or nominative.endswith("ας")) and gender == Gender.MASCULINE:
-        # DANGEROUS USE OF endswith! TODO @Joseph Bell
-        return Noun1(nominative, Gender.MASCULINE)
-    elif nominative.endswith("ος") or nominative.endswith("ον"):
-        return Noun2(nominative, gender)
+
     elif kwargs.get("third", False):
         # If this is set, vocative and dative_plural must be set
         return Noun3(nominative, kwargs.get("vocative"), genitive, kwargs.get("dative_plural"), gender)
+    elif (nominative.endswith("ης") or nominative.endswith("ας")) and gender == Gender.MASCULINE:
+        # DANGEROUS USE OF endswith! (this does not remove accents!) TODO @Joseph Bell
+        return Noun1(nominative, Gender.MASCULINE)
+    elif nominative.endswith("ος") or nominative.endswith("ον"):
+        return Noun2(nominative, gender)
     else:
         raise NotImplementedError("This is an unrecognised noun type as of now.")

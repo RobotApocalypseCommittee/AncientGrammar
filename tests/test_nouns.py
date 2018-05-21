@@ -38,7 +38,11 @@ NOUN_TESTS = {
         param("ὀνομα", "ὀνομα", "ὀνοματος", "ὀνομασι", Gender.NEUTER,
               Case.ACCUSATIVE, False, "ὀνομα", id="3rd_neut1"),
         param("ὀνομα", "ὀνομα", "ὀνοματος", "ὀνομασι", Gender.NEUTER,
-              Case.DATIVE, True, "ὀνομασι", id="3rd_neut2")
+              Case.DATIVE, True, "ὀνομασι", id="3rd_neut2"),
+        param("τειχος", "τειχος", "τειχεος", "τειχεσι", Gender.NEUTER,
+              Case.ACCUSATIVE, True, "τειχη", id="3rd_neut_eps1"),
+        param("τειχος", "τειχος", "τειχεος", "τειχεσι", Gender.NEUTER,
+              Case.GENITIVE, False, "τειχους", id="3rd_neut_eps2"),
     ],
     "not_implemented": [
         param("βασιλευς", "βασιλεια", Gender.MASCULINE, id="not_implemented1")

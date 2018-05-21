@@ -1,10 +1,14 @@
 from ancientgrammar.data import NENDINGS
 from ancientgrammar.noun.noun import Noun
-from ancientgrammar.qualifiers import Gender, Case
+from ancientgrammar.qualifiers import Gender, Case, ContractType
+from ancientgrammar.utils import calculate_contraction, is_equal
+
 
 class Noun3(Noun):
     def __init__(self, nominative: str, vocative: str, genitive: str, dative_plural: str, gender: Gender, **kwargs):
         super().__init__(nominative, genitive, gender, **kwargs)
+        self.contract = ContractType.EPSILON if is_equal(self.genitive[-3:],
+                                                         "εος") and gender is Gender.NEUTER else None
         self.vocative = vocative
         self.gen_stem = genitive[:-2]
         self.dative_plural = dative_plural
@@ -20,4 +24,4 @@ class Noun3(Noun):
         elif ending == "dat":
             return self.dative_plural
         else:
-            return self.gen_stem + ending
+            return calculate_contraction(self.gen_stem, ending, self.contract)
