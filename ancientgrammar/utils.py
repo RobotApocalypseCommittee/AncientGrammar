@@ -60,10 +60,4 @@ def calculate_contraction(stem: str, ending: str, cont_type: ContractType, **kwa
             if is_equal(start_of_ending, ending[:len(start_of_ending)]):
                 return stem[:-1] + CONTRACTS["EPSILON"][start_of_ending] + ending[len(start_of_ending):]
 
-        # Until epsilon contract verbs have been implemented (or some other things), this shall stay uncovered TODO
-        if is_equal("α", ending[0]):  # pragma: no cover
-                return stem + "η" + ending[1:]  # pragma: no cover
-        elif is_equal("αι", ending[:2]):  # pragma: no cover
-                return stem + "ῃ" + ending[1:]  # pragma: no cover
-
     return stem + ending
