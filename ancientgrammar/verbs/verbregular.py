@@ -1,17 +1,11 @@
 import json
-from enum import Enum, auto
 
 from ancientgrammar.adjective import get_adjective
 from ancientgrammar.data import path_to_file
 from ancientgrammar.qualifiers import ContractType
 from ancientgrammar.utils import calculate_contraction, is_vowel, is_equal
 from ancientgrammar.verbs.verb import (Mood, Tense, Verb, VerbComputeError,
-                                       VerbParseError, Voice)
-
-
-class AoristType(Enum):
-    WEAK = auto()
-    STRONG = auto()
+                                       VerbParseError, Voice, AoristType)
 
 
 class RegularVerb(Verb):
@@ -34,14 +28,24 @@ class RegularVerb(Verb):
     Uncommon epsilon augment refers to the few (but not unique) verbs which,
     starting with ε, instead of the temporal augment lengthening it to η, it instead
     becomes ει (like εχω)
+
+    Allowed forms is a dict of lists (dict[TENSE][0]) where the key is the tense,
+    and the value is a list of voices which are allowed. This _can_ be overridden by
+    the code which checks which forms are logically possible, but only by _removal_ of
+    voices/tenses, no tense/voice will ever be possible to use that you have not specified.
+    An empty value (None) signifies that ALL tenses and voices (except for the ones that the
+    code determines to be impossible) can be used.
     """
     VERB_TABLE = json.load(open(path_to_file("regular_endings.json"), encoding="utf-8"))
 
     def __init__(self, present=None, future=None, aorist=None, aorist_passive=None, preposition=None,
-                 uncommon_epsilon_augment=False):
+                 uncommon_epsilon_augment=False, allowed_forms=None):
         """Initialises, taking forms and converting to stems"""
 
-        super().__init__()
+        if allowed_forms is None:
+            super().__init__()
+        else:
+            self.allowed_forms = allowed_forms
 
         self.preposition = preposition
         self.uncommon_epsilon_augment = uncommon_epsilon_augment
@@ -50,7 +54,7 @@ class RegularVerb(Verb):
             self.allowed_forms[Tense.PRESENT] = []
             self.allowed_forms[Tense.IMPERFECT] = []
         elif not is_equal(present[-1:], "ω"):
-            raise VerbParseError("Present not regular!")
+            raise VerbParseError("Present not recognised!")
         else:
             self.present = present[:-1]
 
@@ -64,12 +68,15 @@ class RegularVerb(Verb):
         if future is None:
             self.allowed_forms[Tense.FUTURE] = []
         elif not is_equal(future[-1:], "ω"):
-            raise VerbParseError("Future not regular!")
+            raise VerbParseError("Future not recognised!")
         else:
             self.future = future[:-1]
 
         if aorist is None:
-            self.allowed_forms[Tense.AORIST] = [Voice.PASSIVE]
+            if Voice.ACTIVE in self.allowed_forms[Tense.AORIST]:
+                self.allowed_forms[Tense.AORIST].remove(Voice.ACTIVE)
+            if Voice.MIDDLE in self.allowed_forms[Tense.AORIST]:
+                self.allowed_forms[Tense.AORIST].remove(Voice.MIDDLE)
         elif is_equal(aorist[-1:], "α"):
             self.aorist_type = AoristType.WEAK
             self.aorist = aorist[:-1]
@@ -80,9 +87,10 @@ class RegularVerb(Verb):
             raise VerbParseError("Aorist not recognised as a specified type!")
 
         if aorist_passive is None:
-            self.allowed_forms[Tense.AORIST].remove(Voice.PASSIVE)
+            if Voice.PASSIVE in self.allowed_forms[Tense.AORIST]:
+                self.allowed_forms[Tense.AORIST].remove(Voice.PASSIVE)
         elif not is_equal(aorist_passive[-2:], "ην"):
-            raise VerbParseError("Aorist passive not regular!")
+            raise VerbParseError("Aorist passive not recognised!")
         else:
             self.aorist_passive = aorist_passive[:-2]
 

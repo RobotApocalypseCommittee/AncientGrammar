@@ -62,7 +62,7 @@ def get_adjective(parts:list, adjtype:str=None, **options):
         if is_equal(parts[0][-2:], "ων"):
             stem = parts[0][:-2]
             endings = NENDINGS["PARTICIPLE_313"]
-            return Adjective(stem, endings) # no comparative or superlative
+            return Adjective(stem, endings)  # no comparative or superlative
         elif is_equal(parts[0][-2:], "ας"):
             stem = parts[0][:-2]
             endings = NENDINGS["WEAK_PARTICIPLE_313"]

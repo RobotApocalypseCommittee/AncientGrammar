@@ -6,9 +6,10 @@
     "aorist_passive":null,
     "preposition":null,
     "uncommon_epsilon":"False",
+    "allowed_forms":null,
     "should_fail_creation":"True",
     "deponent":"False",
-    "message":"Present not regular!"
+    "message":"Present not recognised!"
   },
   {
     "present": null,
@@ -17,9 +18,10 @@
     "aorist_passive":null,
     "preposition":null,
     "uncommon_epsilon":"False",
+    "allowed_forms":null,
     "should_fail_creation":"True",
     "deponent":"False",
-    "message":"Future not regular!"
+    "message":"Future not recognised!"
   },
   {
     "present": null,
@@ -28,6 +30,7 @@
     "aorist_passive":null,
     "preposition":null,
     "uncommon_epsilon":"False",
+    "allowed_forms":null,
     "should_fail_creation":"True",
     "deponent":"False",
     "message":"Aorist not recognised as a specified type!"
@@ -39,9 +42,10 @@
     "aorist_passive":"λυθη",
     "preposition":null,
     "uncommon_epsilon":"False",
+    "allowed_forms":null,
     "should_fail_creation":"True",
     "deponent":"False",
-    "message":"Aorist passive not regular!"
+    "message":"Aorist passive not recognised!"
   },
   {
     "present": "λυω",
@@ -50,6 +54,21 @@
     "aorist_passive": null,
     "preposition": null,
     "uncommon_epsilon": "False",
+    "allowed_forms": {
+      "PRESENT":[
+        "ALL"
+      ],
+      "FUTURE":[
+        "ALL"
+      ],
+      "IMPERFECT":[
+        "ALL"
+      ],
+      "AORIST":[
+        "ACTIVE",
+        "MIDDLE"
+      ]
+    },
     "should_fail_creation":"False",
     "tests": [
       {

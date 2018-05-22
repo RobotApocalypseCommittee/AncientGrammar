@@ -6,6 +6,7 @@
         "aorist_passive":"λυθην",
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -172,6 +173,7 @@
         "aorist_passive":null,
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests": {
             "REGULAR_PARTICIPLE":[
                 {
@@ -200,6 +202,7 @@
         "aorist_passive":null,
         "preposition":"προ",
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -220,6 +223,7 @@
         "aorist_passive":"ἀποβληθην",
         "preposition":"ἀπο",
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -240,6 +244,7 @@
         "aorist_passive":"τιμηθην",
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -306,6 +311,7 @@
         "aorist_passive":"κληθην",
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -334,6 +340,7 @@
         "aorist_passive":"ἐρωτηθην",
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -354,6 +361,7 @@
         "aorist_passive":null,
         "preposition":null,
         "uncommon_epsilon":"True",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -374,6 +382,7 @@
         "aorist_passive":"αἰσθηθην",
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -418,6 +427,7 @@
         "aorist_passive":"κτηθην",
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -438,6 +448,7 @@
         "aorist_passive":null,
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {
@@ -458,6 +469,7 @@
         "aorist_passive":null,
         "preposition":null,
         "uncommon_epsilon":"False",
+        "allowed_forms":null,
         "tests":{
             "REGULAR_FINITE":[
                 {

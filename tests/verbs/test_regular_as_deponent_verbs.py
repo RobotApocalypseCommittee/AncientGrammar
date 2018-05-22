@@ -3,10 +3,11 @@ import pytest
 
 from ancientgrammar.qualifiers import Case, Gender
 from ancientgrammar.verbs import get_type
-from ancientgrammar.verbs.verbdeponent import DeponentVerb
 from ancientgrammar.verbs.verb import Tense, Mood, Voice, VerbType
+from ancientgrammar.verbs.verbdeponent import DeponentVerb
 from tests.verbs import TESTS
-from tests.verbs.utils import CASE_REFERENCE, GENDER_REFERENCE, MOOD_REFERENCE, TENSE_REFERENCE, VOICE_REFERENCE
+from tests.verbs.utils import CASE_REFERENCE, GENDER_REFERENCE, MOOD_REFERENCE, TENSE_REFERENCE, VOICE_REFERENCE, \
+    convert_forms
 
 DEPONENT_TESTS = {"FINITE": [], "IMPERATIVE": [], "INFINITIVE": [], "PARTICIPLE": []}
 
@@ -16,7 +17,7 @@ for full_verb in TESTS:
 
     verb_object = DeponentVerb(full_verb["present"], full_verb["future"], full_verb["aorist"],
                                full_verb["aorist_passive"], full_verb["preposition"],
-                               full_verb["uncommon_epsilon"] == "True")
+                               full_verb["uncommon_epsilon"] == "True", convert_forms(full_verb["allowed_forms"]))
 
     if full_verb["tests"].get("REGULAR_FINITE") is not None:
         for test in full_verb["tests"]["REGULAR_FINITE"]:

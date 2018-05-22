@@ -56,3 +56,16 @@ def convert_argument(proposed_type: str, value):
         return VOICE_REFERENCE[value]
     else:
         return value
+
+
+def convert_forms(forms: dict):
+    if forms is None:
+        return
+
+    new_forms = {}
+    for tense, voice_list in forms.items():
+        if voice_list == ["ALL"]:
+            new_forms[TENSE_REFERENCE[tense]] = [VOICE_REFERENCE[voice] for voice in VOICE_REFERENCE]
+        else:
+            new_forms[TENSE_REFERENCE[tense]] = [VOICE_REFERENCE[voice] for voice in voice_list]
+    return new_forms

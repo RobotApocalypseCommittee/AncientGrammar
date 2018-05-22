@@ -21,6 +21,7 @@ class VerbComputeError(BaseVerbError):
 class VerbType(Enum):
     REGULAR = auto()
     DEPONENT = auto()
+    IRREGULAR = auto()
 
 
 class Tense(Enum):
@@ -48,6 +49,11 @@ class Voice(Enum):
     ACTIVE = auto()
     MIDDLE = auto()
     PASSIVE = auto()
+
+
+class AoristType(Enum):
+    WEAK = auto()
+    STRONG = auto()
 
 
 class Verb:
