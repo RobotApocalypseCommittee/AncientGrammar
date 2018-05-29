@@ -1,6 +1,6 @@
+from ancientgrammar.adjective.adjective_creator import get_raw_adjective
 from ancientgrammar.adjective.adjective import Adjective
 from ancientgrammar.qualifiers import Case, Gender, Degree
-from ancientgrammar.data import NENDINGS
 
 class FleshedAdjective(Adjective):
     is_fleshed = True
@@ -10,24 +10,22 @@ class FleshedAdjective(Adjective):
         self.positive = adjective
 
         if "comparative" not in options:
-            self.comparative = Adjective(self.stem+"ωτερ", NENDINGS["ALPHA_212"])
+            self.comparative = get_raw_adjective([self.stem+"ωτερος"], "212", has_adverb=True)
         else:
             if type(options["comparative"]) == str:
-                self.comparative = Adjective(
-                    options["comparative"][:-2], 
-                    NENDINGS["ALPHA_212"])
+                self.comparative = get_raw_adjective([options["comparative"]], "212", has_adverb=True)
             else:
                 self.comparative = options["comparative"]
+        self.comparative.adverb = self.comparative.decline(Gender.NEUTER, 0, Case.NOMINATIVE)
 
         if "superlative" not in options:
-            self.superlative = Adjective(self.stem+"ωτατ", NENDINGS["STANDARD_212"])
+            self.superlative = get_raw_adjective([self.stem+"ωτατος"], "212", has_adverb=True)
         else:
             if type(options["superlative"]) == str:
-                self.superlative = Adjective(
-                    options["superlative"][:-2], 
-                    NENDINGS["STANDARD_212"])
+                self.superlative = get_raw_adjective([options["superlative"]], "212", has_adverb=True)
             else:
                 self.superlative = options["superlative"]
+        self.superlative.adverb = self.superlative.decline(Gender.NEUTER, 1, Case.NOMINATIVE)
 
     def decline(self, gender:Gender, number:bool, case:Case, degree:Degree = Degree.POSITIVE):
         if degree == Degree.POSITIVE:

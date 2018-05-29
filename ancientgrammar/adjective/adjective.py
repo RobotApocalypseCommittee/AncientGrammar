@@ -7,6 +7,10 @@ class Adjective:
         self.stem = stem
         self.endings = endings
         self.options = options
+        if "adverb" in options:
+            self.adverb = options["adverb"]
+        else:
+            self.adverb = None
 
 
     def decline(self, gender:Gender, number:bool, case:Case):

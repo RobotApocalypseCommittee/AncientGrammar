@@ -1,4 +1,4 @@
-from ancientgrammar.adjective import get_adjective, determine_type, AdjectivalError, get_participle
+from ancientgrammar.adjective import get_adjective, determine_type, get_participle, AdjectivalError, UnknownAdjectiveTypeError
 from ancientgrammar.qualifiers import Gender, Case, Degree
 from pytest import param
 import pytest
@@ -107,15 +107,31 @@ def test_irregular_superlative():
     adj = get_adjective(["αγαθος", "αγαθη", "αγαθον"], "212", superlative=superlative)
     assert adj.decline(Gender.MASCULINE, 0, Case.GENITIVE, Degree.SUPERLATIVE) == "αριστου"
 
+def test_adverb_212():
+    assert get_adjective(["σοφος", "σοφη", "σοφον"]).adverb == "σοφως"
+
+def test_adverb_313():
+    assert get_adjective(["βραδυς", "βραδεια", "βραδυ"], "313").adverb == "βραδεως"
+
+def test_adverb_33():
+    assert get_adjective(["δυστυχης"], "33").adverb == "δυστυχως"
+
+def test_adverb_22():
+    assert get_adjective(["αδικος", "αδικον"], "22").adverb == "αδικως"
+
+def test_adverb_comparative():
+    assert get_adjective(["σοφος", "σοφη", "σοφον"]).comparative.adverb == "σοφωτερον"
+    assert get_adjective(["σοφος", "σοφη", "σοφον"]).superlative.adverb == "σοφωτατα"
+
 @pytest.mark.parametrize("parts,expected", ADJECTIVE_TESTS["type_determine"])
 def test_type_determination(parts, expected):
     assert determine_type(parts) == expected
 
 def test_errors():
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(UnknownAdjectiveTypeError):
         adj = get_adjective(["noot"])
-    with pytest.raises(AdjectivalError):
+    with pytest.raises(UnknownAdjectiveTypeError):
         adj = get_adjective(["noot"], "33")
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(UnknownAdjectiveTypeError):
         adj = get_adjective([], "230498")
 
