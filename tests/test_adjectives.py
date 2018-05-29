@@ -1,4 +1,4 @@
-from ancientgrammar.adjective import get_adjective, determine_type, AdjectivalError
+from ancientgrammar.adjective import get_adjective, determine_type, AdjectivalError, get_participle
 from ancientgrammar.qualifiers import Gender, Case, Degree
 from pytest import param
 import pytest
@@ -39,6 +39,7 @@ ADJECTIVE_TESTS = {
     ],
     "a22": {
         param(Gender.FEMININE, 0, Case.ACCUSATIVE, Degree.POSITIVE, "αδικον", id="basic22"),
+        param(Gender.NEUTER, 0, Case.NOMINATIVE, Degree.COMPARATIVE, "αδικωτερον", id="basic22"),
     },
     # TODO: This is Tuesday
     "type_determine": [
@@ -78,7 +79,7 @@ def test_33_comparative(g, n, c, expected):
 
 @pytest.mark.parametrize("g,n,c,expected", ADJECTIVE_TESTS["norm313"])
 def test_313_participle_normal(g, n, c, expected):
-    adj = get_adjective(["παυων", "παυουσα", "παυον"], "313")
+    adj = get_participle(["παυων", "παυουσα", "παυον"])
     assert adj.decline(g, n, c) == expected
 
 @pytest.mark.parametrize("g,n,c,expected", ADJECTIVE_TESTS["weak313"])
