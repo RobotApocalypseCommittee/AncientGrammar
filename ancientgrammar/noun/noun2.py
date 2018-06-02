@@ -9,7 +9,7 @@ class Noun2(Noun):
         # os or on
         self.stem = nominative[:-2]
 
-    def decline(self, case:Case, plural:bool):
+    def decline_regular(self, case:Case, plural:bool):
         gender = self.gender if self.gender != Gender.FEMININE else Gender.MASCULINE
         ending = NENDINGS["STANDARD_212"][gender.name][int(plural)][int(case)]
         return self.stem + ending

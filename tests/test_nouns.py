@@ -46,6 +46,14 @@ NOUN_TESTS = {
     ],
     "not_implemented": [
         param("βασιλευς", "βασιλεια", Gender.MASCULINE, id="not_implemented1")
+    ],
+    "irregular_noun": [
+        # Yes, I know; TODO: MAKE NICER BY 2000%
+        param("ναυς", "νεως", Gender.MASCULINE, [
+            ["ναυς", None, "ναυν", "νεως", "νηι"],
+            ["νηες", None, "ναυς", "νεων", "ναυσι"]
+        ], Case.GENITIVE, False, "νεως", id="irregularNAUS")
+
     ]
 }
 
@@ -89,3 +97,18 @@ def test_third_declension(nominative, vocative, genitive, dative_plural, gender,
 def test_not_implemented(nominative, genitive, gender):
     with pytest.raises(NotImplementedError):
         get_noun(nominative, genitive, gender)
+
+
+@pytest.mark.parametrize("nominative, genitive, gender, forms, case, is_plural, expected",
+                         NOUN_TESTS["irregular_noun"])
+def test_irregular(nominative, genitive, gender, forms, case, is_plural, expected):
+    noun = get_noun(nominative, genitive, gender, irregular_forms=forms)
+    assert expected == noun.decline(case, is_plural)
+
+def test_unimplemented_forms():
+    noun = get_noun("ναυς", "νεως", Gender.MASCULINE, irregular_forms=[
+            ["ναυς", None, "ναυν", "νεως", "νηι"],
+            ["νηες", None, "ναυς", "νεων", "ναυσι"]
+        ])
+    with pytest.raises(NotImplementedError):
+        noun.decline(Case.VOCATIVE, False)

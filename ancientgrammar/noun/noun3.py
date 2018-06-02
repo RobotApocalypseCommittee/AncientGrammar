@@ -13,7 +13,7 @@ class Noun3(Noun):
         self.gen_stem = genitive[:-2]
         self.dative_plural = dative_plural
 
-    def decline(self, case: Case, is_plural: bool):
+    def decline_regular(self, case: Case, is_plural: bool):
         gender = self.gender if self.gender is not Gender.FEMININE else Gender.MASCULINE
         ending = NENDINGS["NOUN_3"][gender.name][int(is_plural)][int(case)]
 

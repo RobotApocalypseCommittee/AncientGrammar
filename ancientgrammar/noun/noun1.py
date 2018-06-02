@@ -21,7 +21,7 @@ class Noun1(Noun):
             self.halpha = False
             self.alpha = Noun1.is_alpha_pure(nominative, gender)
 
-    def decline(self, case: Case, plural: bool):
+    def decline_regular(self, case: Case, plural: bool):
         ending = self.endings[self.gender.name][int(plural)][int(case)]
         if not plural:
             if (
