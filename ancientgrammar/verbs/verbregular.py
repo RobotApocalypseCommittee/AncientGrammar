@@ -47,6 +47,8 @@ class RegularVerb(Verb):
         else:
             self.allowed_forms = allowed_forms
 
+        self.aorist_type = None
+
         self.preposition = preposition
         self.uncommon_epsilon_augment = uncommon_epsilon_augment
 
